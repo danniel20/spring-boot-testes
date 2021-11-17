@@ -2,6 +2,7 @@ package com.securityteste.securityspringteste.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 //import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .formLogin().permitAll();
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+            .ignoring()
+            .antMatchers("/h2-console/**");
+    }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -46,27 +54,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-            .ignoring()
-            .antMatchers("/h2-console/**");
-    }
+    /**
+    @Bean
+    @Profile("development")
+    public UserDetailsService users() {
+        UserDetails user = User.builder()
+            .username("user")
+            .password("{noop}123")
+            .roles("USER")
+            .build();
 
-    // @Bean
-    // public UserDetailsService users() {
-    //     UserDetails user = User.builder()
-    //         .username("user")
-    //         .password("{noop}123")
-    //         .roles("USER")
-    //         .build();
+        UserDetails admin = User.builder()
+            .username("admin")
+            .password("{bcrypt}$2a$10$XjjKhVgcuxJLKHcLvBtaDeAeHfEWdnQabS8S3BFpct6DwS8EW2AWW")
+            .roles("USER", "ADMIN")
+            .build();
 
-    //     UserDetails admin = User.builder()
-    //         .username("admin")
-    //         .password("{bcrypt}$2a$10$XjjKhVgcuxJLKHcLvBtaDeAeHfEWdnQabS8S3BFpct6DwS8EW2AWW")
-    //         .roles("USER", "ADMIN")
-    //         .build();
-
-    //     return new InMemoryUserDetailsManager(user, admin);
-    // }
+        return new InMemoryUserDetailsManager(user, admin);
+    } */
 }
