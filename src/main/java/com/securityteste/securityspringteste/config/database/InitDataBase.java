@@ -41,6 +41,7 @@ public class InitDataBase implements CommandLineRunner{
         usuario1.setLogin("ana");
         usuario1.setSenha(new BCryptPasswordEncoder().encode("123"));
         usuario1.setPapeis(papeis);
+        usuario1.setEmail("usuario1@teste.com");
 
         usuarioRepository.save(usuario1);
 
@@ -49,6 +50,7 @@ public class InitDataBase implements CommandLineRunner{
         usuario2.setSenha(new BCryptPasswordEncoder().encode("123"));
         papeis.add(roleAdmin);
         usuario2.setPapeis(papeis);
+        usuario2.setEmail("usuario2@teste.com");
 
         usuarioRepository.save(usuario2);        
     }

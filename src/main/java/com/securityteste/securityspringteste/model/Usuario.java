@@ -19,11 +19,14 @@ import lombok.Setter;
 @Entity
 public class Usuario extends Base implements UserDetails{
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
 
     @Column(nullable = false)
     private String senha;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "usuarios_papeis", 

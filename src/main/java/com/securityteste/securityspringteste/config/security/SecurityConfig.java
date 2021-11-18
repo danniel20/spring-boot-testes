@@ -1,37 +1,62 @@
 package com.securityteste.securityspringteste.config.security;
 
+import com.securityteste.securityspringteste.filter.TokenAuthenticationFilter;
+import com.securityteste.securityspringteste.repository.UsuarioRepository;
+import com.securityteste.securityspringteste.service.TokenService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Profile;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//import org.springframework.web.filter.OncePerRequestFilter;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/home/**").hasAnyRole("USER", "ADMIN")
+            .antMatchers(HttpMethod.POST, "/auth").permitAll()
             .anyRequest().authenticated()
             .and()
-            .formLogin().permitAll();
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilterBefore(new TokenAuthenticationFilter(this.tokenService, this.usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
+    }
+
+    // @Bean
+    // public OncePerRequestFilter tokenAuthenticationFilter(){
+    //     return new TokenAuthenticationFilter();
+    // }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -41,35 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(this.userDetailsServiceImpl);
-
-        return daoAuthenticationProvider;
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
-    /**
+    @Override
     @Bean
-    @Profile("development")
-    public UserDetailsService users() {
-        UserDetails user = User.builder()
-            .username("user")
-            .password("{noop}123")
-            .roles("USER")
-            .build();
+    protected AuthenticationManager authenticationManager() throws Exception{
+        return super.authenticationManager();
+    }
 
-        UserDetails admin = User.builder()
-            .username("admin")
-            .password("{bcrypt}$2a$10$XjjKhVgcuxJLKHcLvBtaDeAeHfEWdnQabS8S3BFpct6DwS8EW2AWW")
-            .roles("USER", "ADMIN")
-            .build();
-
-        return new InMemoryUserDetailsManager(user, admin);
-    } */
 }
