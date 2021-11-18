@@ -7,28 +7,21 @@ import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 public class Papel extends Base implements GrantedAuthority{
     
+    @Getter
     private String nome;
 
+    @Getter @Setter
     @ManyToMany(mappedBy = "papeis")
     private List<Usuario> usuarios;
 
-    public String getNome() {
-        return nome;
-    }
-
     public void setNome(String nome) {
         this.nome = "ROLE_" + nome;
-    }
-
-    public List<Usuario> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
     }
 
     @Override

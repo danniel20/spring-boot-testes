@@ -13,6 +13,9 @@ import javax.persistence.ManyToMany;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.Getter;
+import lombok.Setter;
+@Getter @Setter
 @Entity
 public class Usuario extends Base implements UserDetails{
 
@@ -28,30 +31,6 @@ public class Usuario extends Base implements UserDetails{
 	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "nome")) 
     private List<Papel> papeis;
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public List<Papel> getPapeis() {
-        return papeis;
-    }
-
-    public void setPapeis(List<Papel> papeis) {
-        this.papeis = papeis;
-    }
-
     @Override
     public String getPassword() {
         return this.senha;
@@ -64,7 +43,7 @@ public class Usuario extends Base implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return papeis;
+        return this.papeis;
     }
     
     @Override
