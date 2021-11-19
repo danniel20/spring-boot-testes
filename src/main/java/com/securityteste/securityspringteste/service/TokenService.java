@@ -31,7 +31,7 @@ public class TokenService {
 
         return Jwts.builder()
                         .setIssuer("AplicacaoJWT")
-                        .setSubject(usuario.getId().toString())
+                        .setSubject(usuario.getLogin())
                         .setIssuedAt(new Date())
                         .setExpiration(generateExpirationDate())
                         .signWith(SignatureAlgorithm.HS256, this.secret)
@@ -46,7 +46,7 @@ public class TokenService {
             .getBody();
     }
 
-    public String getUsuario(String token){
+    public String getTokenSubject(String token){
         Claims claims = getClaims(token);
         return claims.getSubject();
     }
@@ -63,10 +63,5 @@ public class TokenService {
 
     public boolean isTokenValid(String token){
         return !isTokenExpired(token);
-    }
-
-    public Long getTokenId(String token){
-        Claims claims = getClaims(token);
-        return Long.valueOf(claims.getSubject());
     }
 }

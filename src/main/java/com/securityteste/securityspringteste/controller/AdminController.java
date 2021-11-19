@@ -1,7 +1,6 @@
 package com.securityteste.securityspringteste.controller;
 
-import javax.annotation.security.RolesAllowed;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @GetMapping
-    @RolesAllowed("ADMIN")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String index(){
         return "Área Administrativa!";
     }
