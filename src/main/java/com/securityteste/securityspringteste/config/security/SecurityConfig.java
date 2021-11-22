@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -47,11 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    // @Override
-    // protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    //     System.out.println("método configure (AuthenticationManagerBuilder ...)");
-    //     auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-    // }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
+    }
 
     @Bean
     public OncePerRequestFilter tokenAuthenticationFilter(){
