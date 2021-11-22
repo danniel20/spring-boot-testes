@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,6 +15,7 @@ import lombok.Setter;
 public class Papel extends Base implements GrantedAuthority{
     
     @Getter
+    @NotBlank
     private String nome;
 
     @Getter @Setter

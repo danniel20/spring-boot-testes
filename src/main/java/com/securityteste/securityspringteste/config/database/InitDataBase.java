@@ -39,7 +39,8 @@ public class InitDataBase implements CommandLineRunner{
 
         Usuario usuario1 = new Usuario();
         usuario1.setLogin("ana");
-        usuario1.setSenha(new BCryptPasswordEncoder().encode("123"));
+        usuario1.setSenha(new BCryptPasswordEncoder().encode("123456"));
+        usuario1.setNome("Ana Maria");
         usuario1.setPapeis(papeis);
         usuario1.setEmail("usuario1@teste.com");
 
@@ -47,7 +48,8 @@ public class InitDataBase implements CommandLineRunner{
 
         Usuario usuario2 = new Usuario();
         usuario2.setLogin("joao");
-        usuario2.setSenha(new BCryptPasswordEncoder().encode("123"));
+        usuario2.setSenha(new BCryptPasswordEncoder().encode("123456"));
+        usuario2.setNome("Joao das Neves");
         papeis.add(roleAdmin);
         usuario2.setPapeis(papeis);
         usuario2.setEmail("usuario2@teste.com");

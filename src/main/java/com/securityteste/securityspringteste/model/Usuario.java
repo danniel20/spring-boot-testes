@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,16 +21,18 @@ import lombok.Setter;
 @Entity
 public class Usuario extends Base implements UserDetails{
 
-    @Column(nullable = false, unique = true)
+    @NotBlank
+    @Column(unique=true)
     private String login;
 
-    @Column(nullable = false)
+    @NotBlank
     private String senha;
 
-    @Column(nullable = false)
+    @NotBlank
     private String nome;
-
-    @Column(nullable = false, unique = true)
+    
+    @Email
+    @Column(unique=true)
     private String email;
 
     @ManyToMany(fetch=FetchType.EAGER)
