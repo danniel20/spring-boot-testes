@@ -1,5 +1,7 @@
 package com.securityteste.securityspringteste.config.security;
 
+import java.util.Optional;
+
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.repository.UsuarioRepository;
 
@@ -17,13 +19,13 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = this.usuarioRepository.findByLogin(username);
+        Optional<Usuario> usuario = this.usuarioRepository.findByLogin(username);
 
-        if(usuario == null){
-            throw new UsernameNotFoundException("Usuário não encontrado!");
+        if(usuario.isPresent()){
+            return usuario.get();
         }
-
-        return usuario;
+        
+        throw new UsernameNotFoundException("Usuário não encontrado!");        
     }
     
 }
