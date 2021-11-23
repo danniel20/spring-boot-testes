@@ -1,19 +1,18 @@
 package com.securityteste.securityspringteste.controller.auth.dto;
 
-
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
 @Data
 public class LoginDTO {
     
-    @NotEmpty
+    @NotBlank
+    @Size(min=3, message = "deve possuir ao menos 3 caracteres.")
     private String login;
 
-    @NotEmpty
-    @Min(value = 6)
+    @NotBlank
+    @Size(min=6, message = "deve possuir ao menos 6 caracteres.")
     private String password;
 }

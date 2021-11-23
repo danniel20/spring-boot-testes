@@ -17,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
@@ -30,8 +29,7 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> auth(@Valid @RequestBody LoginDTO loginDTO) throws Exception {
+    public ResponseEntity<Object> auth(@Valid @RequestBody LoginDTO loginDTO) {
 
         try{
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
