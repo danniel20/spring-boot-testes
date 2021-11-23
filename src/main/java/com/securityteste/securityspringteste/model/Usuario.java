@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,16 +23,18 @@ import lombok.Setter;
 public class Usuario extends Base implements UserDetails{
 
     @NotBlank
+    @Size(min=3, message = "deve possuir ao menos 3 caracteres.")
     @Column(unique=true)
     private String login;
 
     @NotBlank
+    @Size(min=6, message = "deve possuir ao menos 6 caracteres.")
     private String senha;
 
     @NotBlank
     private String nome;
     
-    @Email
+    @Email(message = "Email inválido")
     @Column(unique=true)
     private String email;
 
