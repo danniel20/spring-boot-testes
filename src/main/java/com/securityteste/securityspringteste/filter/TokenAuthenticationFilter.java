@@ -17,6 +17,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter{
 
@@ -43,10 +45,17 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 
             try {
                 userNameToken = tokenService.getTokenSubject(token);
-            } catch (ExpiredJwtException ex) {
-                System.out.println(" Token expired! ");
-                //request.setAttribute("exception", ex);
-                //response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } catch (ExpiredJwtException ex) {                
+                generateErrorResponse("Token expirou!", request, response);
+                return;
+            }
+            catch (UnsupportedJwtException ex) {
+                generateErrorResponse("Token não suportado!", request, response);
+                return;
+            }
+            catch (MalformedJwtException ex) {
+                generateErrorResponse("Token invlálido!", request, response);
+                return;
             }
         }
 
@@ -65,5 +74,19 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 
         filterChain.doFilter(request, response);
         
-    }    
+    }
+
+    public void generateErrorResponse(String errorMessage, HttpServletRequest request, HttpServletResponse response) throws IOException{
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ ");
+        sb.append("\"error\": \"Unauthorized\",");
+        sb.append("\"message\": \""+errorMessage+"\",");
+        sb.append("\"path\": \"")
+        .append(request.getRequestURL()).append("\"");
+        sb.append("} ");
+
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  
+        response.getWriter().write(sb.toString());
+    }
 }

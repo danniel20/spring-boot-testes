@@ -65,7 +65,7 @@ public class UsuarioController {
             return ResponseHandler.generateResponse("Usuário cadastrado com sucesso!", HttpStatus.CREATED, usuarioResponse);
             
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            return ResponseHandler.generateResponse("Erro ao cadastrar Usuário.", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -74,7 +74,6 @@ public class UsuarioController {
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id){
 
         try{
-
             Optional<Usuario> usuario = usuarioService.bucarPorId(id);
     
             if(usuario.isPresent()){
@@ -83,12 +82,12 @@ public class UsuarioController {
     
                 return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
             }
-            else{
-                return ResponseHandler.generateResponse("Usuário não encontrado!", HttpStatus.MULTI_STATUS, null);
-            }
+            
+            throw new Exception("Id do Usuário informado não existe!");
+            
         }
         catch(Exception e){
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
 
     }
@@ -111,7 +110,7 @@ public class UsuarioController {
             return ResponseHandler.generateResponse(null, HttpStatus.OK, listUsuariosResponse);
 
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            return ResponseHandler.generateResponse("Erro ao listar usuários.", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
@@ -123,7 +122,7 @@ public class UsuarioController {
             usuarioService.deletarPorId(id);
             return ResponseHandler.generateResponse("Usuário removido com sucesso!", HttpStatus.NO_CONTENT, null);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            return ResponseHandler.generateResponse("Id do Usuário informado não existe!", HttpStatus.BAD_REQUEST, null);
         }
     }
     

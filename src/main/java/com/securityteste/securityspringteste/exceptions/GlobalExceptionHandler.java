@@ -3,8 +3,6 @@ package com.securityteste.securityspringteste.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityNotFoundException;
-
 import com.securityteste.securityspringteste.response.ResponseHandler;
 
 import org.springframework.http.HttpHeaders;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-//import io.jsonwebtoken.ExpiredJwtException;
-
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
@@ -27,7 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ AccessDeniedException.class })
     public ResponseEntity<Object> handleAccessDeniedException( Exception ex, WebRequest request) {
-        return ResponseHandler.generateResponse("Acesso Negado", HttpStatus.FORBIDDEN, new HttpHeaders());
+        return ResponseHandler.generateResponse("Você não tem permissão de acesso!", HttpStatus.FORBIDDEN, new HttpHeaders());
     }
 
     @ExceptionHandler({ MethodArgumentNotValidException.class })
@@ -48,28 +44,8 @@ public class GlobalExceptionHandler {
         return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.NOT_FOUND, null);
     }
 
-    @ExceptionHandler({ EntityNotFoundException.class })
-    public ResponseEntity<Object> handleEntityNotFoundException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.NOT_FOUND, null);
-    }
-
-    @ExceptionHandler({ IllegalArgumentException.class })
-    public ResponseEntity<Object> handleIllegalArgumentException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
-    }
-
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
     public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
-    }
-
-    // @ExceptionHandler({ ExpiredJwtException.class })
-    // public ResponseEntity<Object> handleEpiredJwtException(Exception ex, WebRequest request){
-    //     return ResponseHandler.generateResponse("Token Expirado!", HttpStatus.INTERNAL_SERVER_ERROR, null);
-    // }
-
-    @ExceptionHandler({ Exception.class })
-    public ResponseEntity<Object> handleException(Exception ex, WebRequest request){
         return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
     }
 

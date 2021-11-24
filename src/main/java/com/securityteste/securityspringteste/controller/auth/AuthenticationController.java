@@ -47,7 +47,7 @@ public class AuthenticationController {
 
         }
         catch(Exception e){
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            return ResponseHandler.generateResponse("Usuário e/ou senha incorreto(s)!", HttpStatus.UNAUTHORIZED, null);
         }
     }
 
