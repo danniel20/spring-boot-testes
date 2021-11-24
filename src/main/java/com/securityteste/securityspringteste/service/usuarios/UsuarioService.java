@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.service;
+package com.securityteste.securityspringteste.service.usuarios;
 
 import java.util.List;
 import java.util.Optional;

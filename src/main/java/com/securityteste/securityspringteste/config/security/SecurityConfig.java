@@ -1,7 +1,8 @@
 package com.securityteste.securityspringteste.config.security;
 
 import com.securityteste.securityspringteste.filter.TokenAuthenticationFilter;
-import com.securityteste.securityspringteste.service.TokenService;
+import com.securityteste.securityspringteste.service.auth.TokenService;
+import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

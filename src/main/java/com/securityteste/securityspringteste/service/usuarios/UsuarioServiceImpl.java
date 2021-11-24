@@ -1,11 +1,10 @@
-package com.securityteste.securityspringteste.service.impl;
+package com.securityteste.securityspringteste.service.usuarios;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.repository.UsuarioRepository;
-import com.securityteste.securityspringteste.service.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

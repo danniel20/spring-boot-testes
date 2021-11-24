@@ -7,8 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.securityteste.securityspringteste.config.security.UserDetailsServiceImpl;
-import com.securityteste.securityspringteste.service.TokenService;
+import com.securityteste.securityspringteste.service.auth.TokenService;
+import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

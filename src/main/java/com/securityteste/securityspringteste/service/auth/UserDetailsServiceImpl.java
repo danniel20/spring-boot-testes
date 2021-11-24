@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.config.security;
+package com.securityteste.securityspringteste.service.auth;
 
 import java.util.Optional;
 

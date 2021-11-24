@@ -12,7 +12,7 @@ import com.securityteste.securityspringteste.controller.usuarios.dto.UsuarioResp
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.response.ResponseHandler;
-import com.securityteste.securityspringteste.service.impl.UsuarioServiceImpl;
+import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
