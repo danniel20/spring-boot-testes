@@ -16,9 +16,13 @@ import javax.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Usuario extends Base implements UserDetails{
 
