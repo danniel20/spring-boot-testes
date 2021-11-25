@@ -46,16 +46,23 @@ public class UsuarioController {
 
         try {
             Usuario usuarioNovo = new Usuario();
-            BeanUtils.copyProperties(usuarioRequest, usuarioNovo);
+            BeanUtils.copyProperties(usuarioRequest, usuarioNovo, "papeis");
             usuarioNovo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
 
             Set<Papel> papeis = new HashSet<Papel>();
 
-            Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
+            if(usuarioRequest.getPapeis() == null || usuarioRequest.getPapeis().length == 0){
                 Papel papel = new Papel();
-                papel.setNome(papelString);
+                papel.setNome("USER");
                 papeis.add(papel);
-            });
+            }
+            else{
+                Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
+                    Papel papel = new Papel();
+                    papel.setNome(papelString);
+                    papeis.add(papel);
+                });
+            }
 
             usuarioNovo.setPapeis(papeis);
 
