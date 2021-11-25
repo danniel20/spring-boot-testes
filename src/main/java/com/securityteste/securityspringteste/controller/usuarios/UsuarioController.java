@@ -2,8 +2,10 @@ package com.securityteste.securityspringteste.controller.usuarios;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -47,7 +49,7 @@ public class UsuarioController {
             BeanUtils.copyProperties(usuarioRequest, usuarioNovo);
             usuarioNovo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
 
-            List<Papel> papeis = new ArrayList<Papel>();
+            Set<Papel> papeis = new HashSet<Papel>();
 
             Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
                 Papel papel = new Papel();

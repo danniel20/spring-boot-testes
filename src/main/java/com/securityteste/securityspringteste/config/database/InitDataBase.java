@@ -1,7 +1,8 @@
 package com.securityteste.securityspringteste.config.database;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
@@ -34,7 +35,7 @@ public class InitDataBase implements CommandLineRunner{
         roleAdmin.setNome("ADMIN");
         papelRepository.save(roleAdmin);
 
-        List<Papel> papeis = new ArrayList<Papel>();
+        Set<Papel> papeis = new HashSet<Papel>();
         papeis.add(roleUser);
 
         Usuario usuario1 = new Usuario();

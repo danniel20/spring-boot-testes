@@ -1,7 +1,7 @@
 package com.securityteste.securityspringteste.model;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +47,7 @@ public class Usuario extends Base implements UserDetails{
 	@JoinTable(name = "usuarios_papeis", 
 	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "login"), 
 	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "nome")) 
-    private List<Papel> papeis;
+    private Set<Papel> papeis;
 
     @Override
     public String getPassword() {
