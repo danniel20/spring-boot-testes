@@ -76,14 +76,15 @@ public class UsuarioController {
         try{
             Optional<Usuario> usuario = usuarioService.bucarPorId(id);
     
-            if(usuario.isPresent()){
-                UsuarioResponse usuarioResponse = new UsuarioResponse();
-                BeanUtils.copyProperties(usuario.get(), usuarioResponse);
-    
-                return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
+            if(usuario.isEmpty()){
+                throw new Exception("Id do Usuário informado não existe!");
             }
+
+            UsuarioResponse usuarioResponse = new UsuarioResponse();
+            BeanUtils.copyProperties(usuario.get(), usuarioResponse);
+    
+            return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
             
-            throw new Exception("Id do Usuário informado não existe!");
             
         }
         catch(Exception e){
