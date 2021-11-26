@@ -21,11 +21,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Usuario> usuario = this.usuarioRepository.findByLogin(username);
 
-        if(usuario.isPresent()){
-            return usuario.get();
+        if(usuario.isEmpty()){
+            throw new UsernameNotFoundException("Usuário não encontrado!");
         }
-        
-        throw new UsernameNotFoundException("Usuário não encontrado!");        
+
+        return usuario.get();        
     }
     
 }

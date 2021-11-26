@@ -11,5 +11,5 @@ public interface UsuarioService {
     public Optional<Usuario> bucarPorId(Long id);
     public List<Usuario> buscarTodos();
     public void deletarPorId(Long id);
-    
+    public Optional<Usuario> buscarPorLogin(String login);
 }

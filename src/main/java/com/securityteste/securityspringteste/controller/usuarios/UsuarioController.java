@@ -47,7 +47,12 @@ public class UsuarioController {
     public ResponseEntity<Object> salvar(@RequestBody @Valid UsuarioRequest usuarioRequest){
 
         try {
-            Usuario usuarioNovo = new Usuario();
+
+            if(usuarioService.buscarPorLogin(usuarioRequest.getLogin()).isPresent()){
+                return ResponseHandler.generateResponse("Já existe usuário cadastrado com esse login!", HttpStatus.CREATED, null);
+            }
+
+            Usuario usuarioNovo = Usuario.builder().build();
             BeanUtils.copyProperties(usuarioRequest, usuarioNovo, "dataNascimento", "papeis");
             usuarioNovo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
             usuarioNovo.setDataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -55,14 +60,12 @@ public class UsuarioController {
             Set<Papel> papeis = new HashSet<Papel>();
 
             if(usuarioRequest.getPapeis() == null || usuarioRequest.getPapeis().length == 0){
-                Papel papel = new Papel();
-                papel.setNome("USER");
+                Papel papel = Papel.builder().nome("USER").build();
                 papeis.add(papel);
             }
             else{
                 Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
-                    Papel papel = new Papel();
-                    papel.setNome(papelString);
+                    Papel papel = Papel.builder().nome(papelString).build();
                     papeis.add(papel);
                 });
             }
@@ -71,11 +74,11 @@ public class UsuarioController {
 
             Usuario saved = usuarioService.salvar(usuarioNovo);
 
-            UsuarioResponse usuarioResponse = new UsuarioResponse();
+            UsuarioResponse usuarioResponse = UsuarioResponse.builder().build();
             BeanUtils.copyProperties(saved, usuarioResponse);
 
             return ResponseHandler.generateResponse("Usuário cadastrado com sucesso!", HttpStatus.CREATED, usuarioResponse);
-            
+
         } catch (Exception e) {
             return ResponseHandler.generateResponse("Erro ao cadastrar Usuário.", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -92,7 +95,7 @@ public class UsuarioController {
                 throw new Exception("Id do Usuário informado não existe!");
             }
 
-            UsuarioResponse usuarioResponse = new UsuarioResponse();
+            UsuarioResponse usuarioResponse = UsuarioResponse.builder().build();
             BeanUtils.copyProperties(usuario.get(), usuarioResponse);
     
             return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
@@ -115,7 +118,7 @@ public class UsuarioController {
             List<UsuarioResponse> listUsuariosResponse = new ArrayList<UsuarioResponse>();
 
             usuarios.forEach(usuario -> {
-                UsuarioResponse usuarioResponse = new UsuarioResponse();
+                UsuarioResponse usuarioResponse = UsuarioResponse.builder().build();
                 BeanUtils.copyProperties(usuario, usuarioResponse);
                 listUsuariosResponse.add(usuarioResponse);
             });

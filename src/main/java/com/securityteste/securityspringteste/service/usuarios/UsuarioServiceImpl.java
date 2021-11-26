@@ -17,23 +17,28 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario salvar(Usuario usuario) {
-        return repository.save(usuario);
+        return this.repository.save(usuario);
         
     }
 
     @Override
     public Optional<Usuario> bucarPorId(Long id) {
-        return repository.findById(id);
+        return this.repository.findById(id);
     }
 
     @Override
     public List<Usuario> buscarTodos() {
-        return repository.findAll();
+        return this.repository.findAll();
     }
 
     @Override
     public void deletarPorId(Long id) {
-        repository.deleteById(id);
+        this.repository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Usuario> buscarPorLogin(String login) {
+        return this.repository.findByLogin(login);
     }
     
 }

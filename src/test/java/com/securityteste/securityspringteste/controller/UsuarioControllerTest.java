@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.securityteste.securityspringteste.controller.usuarios.UsuarioController;
@@ -21,7 +20,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.BeanUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -62,21 +61,20 @@ public class UsuarioControllerTest {
 
     @BeforeEach
     public void setup(){
-        Usuario usuario1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null);
-        Usuario usuario2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null);
-        Usuario usuario3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null);
-        
-        usuario1.setId(1L);
-        usuario2.setId(2L);
-        usuario3.setId(3L);
+        Usuario usuarioMock1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null);
+        Usuario usuarioMock2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null);
+        Usuario usuarioMock3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null);
 
-        this.usuariosList = new ArrayList<Usuario>();
-        this.usuariosList.addAll(Arrays.asList(usuario1, usuario2, usuario3));
+        usuarioMock1.setId(1L);
+        usuarioMock2.setId(2L);
+        usuarioMock3.setId(3L);
+
+        this.usuariosList = new ArrayList<Usuario>(Arrays.asList(usuarioMock1, usuarioMock2, usuarioMock3));
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
-    public void deveObterTodosUsuarios() throws Exception {
+    public void deveRetornarStatus200AoObterTodosUsuarios() throws Exception {
 
         Mockito.when(usuarioService.buscarTodos()).thenReturn(this.usuariosList);
 
@@ -92,7 +90,7 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
-    public void deveObterUsuarioPorId() throws Exception {
+    public void deveRetornarStatus200AoObterUsuarioPorIdValido() throws Exception {
 
         Mockito.when(usuarioService.bucarPorId(this.usuariosList.get(0).getId())).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 
@@ -107,32 +105,35 @@ public class UsuarioControllerTest {
     }
     
     @Test
+    @WithMockUser(roles = {"ADMIN", "USER"})
+    public void deveRetornarStatus400AoObterUsuarioPorIdInValido() throws Exception {
+
+        Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+            .get("/usuarios/-1")
+            .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.data", nullValue()))
+            .andExpect(jsonPath("$.message", is("Id do Usuário informado não existe!")));
+    }
+    
+    @Test
     @WithMockUser(roles = "ADMIN")
-    public void deveCriarUsuario() throws Exception {
+    public void deveRetornarStatus201AoCriarUsuarioValido() throws Exception {
 
         UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", "15/08/1991", new String[]{"USER"});
         
-        Usuario novo = new Usuario();
-        BeanUtils.copyProperties(usuarioRequest, novo, "papeis");
-        novo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
-        novo.setDataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        
-        Set<Papel> papeis = new HashSet<Papel>();
-
-        if(usuarioRequest.getPapeis() == null || usuarioRequest.getPapeis().length == 0){
-            Papel papel = new Papel();
-            papel.setNome("USER");
-            papeis.add(papel);
-        }
-        else{
-            Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
-                Papel papel = new Papel();
-                papel.setNome(papelString);
-                papeis.add(papel);
-            });
-        }
-
-        novo.setPapeis(papeis);
+        Usuario novo = Usuario.builder()
+            .login(usuarioRequest.getLogin())
+            .senha(passwordEncoder.encode(usuarioRequest.getSenha()))
+            .nome(usuarioRequest.getNome())
+            .email(usuarioRequest.getEmail())
+            .dataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
+            .build();
 
         Mockito.when(usuarioService.salvar(novo)).thenReturn(novo);
 
@@ -149,7 +150,7 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    public void deveRemoverUsuarioPorId() throws Exception {
+    public void deveRetornarSatus204AoRemoverUsuarioPorIdValido() throws Exception {
         
         Mockito.when(usuarioService.bucarPorId(this.usuariosList.get(0).getId())).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 

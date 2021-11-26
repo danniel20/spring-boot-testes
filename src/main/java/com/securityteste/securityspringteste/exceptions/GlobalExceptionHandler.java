@@ -39,9 +39,14 @@ public class GlobalExceptionHandler {
         return ResponseHandler.generateResponse("Erro de Validação", HttpStatus.BAD_REQUEST, errors);
     }
 
-    @ExceptionHandler({ NullPointerException.class })
+    @ExceptionHandler({ NullPointerException.class})
     public ResponseEntity<Object> handleNullPointerException(Exception ex, WebRequest request){
         return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+    }
+
+    @ExceptionHandler({ java.lang.NumberFormatException.class})
+    public ResponseEntity<Object> handleNumberFormatException(Exception ex, WebRequest request){
+        return ResponseHandler.generateResponse("Erro ao tentar converter para valor numérico!", HttpStatus.BAD_REQUEST, null);
     }
 
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })

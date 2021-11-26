@@ -46,7 +46,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
             try {
                 userNameToken = tokenService.getTokenSubject(token);
             } catch (ExpiredJwtException ex) {                
-                generateErrorResponse("Token expirou!", request, response);
+                generateErrorResponse("Token expirado!", request, response);
                 return;
             }
             catch (UnsupportedJwtException ex) {
