@@ -1,5 +1,7 @@
 package com.securityteste.securityspringteste.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -60,9 +62,9 @@ public class UsuarioControllerTest {
 
     @BeforeEach
     public void setup(){
-        Usuario usuario1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", null);
-        Usuario usuario2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", null);
-        Usuario usuario3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", null);
+        Usuario usuario1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null);
+        Usuario usuario2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null);
+        Usuario usuario3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null);
         
         usuario1.setId(1L);
         usuario2.setId(2L);
@@ -108,11 +110,12 @@ public class UsuarioControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void deveCriarUsuario() throws Exception {
 
-        UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", new String[]{"USER"});
+        UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", "15/08/1991", new String[]{"USER"});
         
         Usuario novo = new Usuario();
         BeanUtils.copyProperties(usuarioRequest, novo, "papeis");
         novo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
+        novo.setDataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         
         Set<Papel> papeis = new HashSet<Papel>();
 

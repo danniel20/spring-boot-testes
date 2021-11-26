@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         return ResponseHandler.generateResponse("Você não tem permissão de acesso!", HttpStatus.FORBIDDEN, new HttpHeaders());
     }
 
-    @ExceptionHandler({ MethodArgumentNotValidException.class })
+    @ExceptionHandler({ MethodArgumentNotValidException.class})
     public ResponseEntity<Object> handleMethodArgumentNotValid( Exception ex, WebRequest request) {
 
         Map<String, String> errors = new HashMap<>();
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ NullPointerException.class })
     public ResponseEntity<Object> handleNullPointerException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.NOT_FOUND, null);
+        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
     }
 
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })

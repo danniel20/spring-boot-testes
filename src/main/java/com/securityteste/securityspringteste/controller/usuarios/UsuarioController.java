@@ -1,5 +1,7 @@
 package com.securityteste.securityspringteste.controller.usuarios;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -46,8 +48,9 @@ public class UsuarioController {
 
         try {
             Usuario usuarioNovo = new Usuario();
-            BeanUtils.copyProperties(usuarioRequest, usuarioNovo, "papeis");
+            BeanUtils.copyProperties(usuarioRequest, usuarioNovo, "dataNascimento", "papeis");
             usuarioNovo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
+            usuarioNovo.setDataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
             Set<Papel> papeis = new HashSet<Papel>();
 

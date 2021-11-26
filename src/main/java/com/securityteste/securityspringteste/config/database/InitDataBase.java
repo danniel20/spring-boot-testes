@@ -1,6 +1,8 @@
 package com.securityteste.securityspringteste.config.database;
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,8 +44,9 @@ public class InitDataBase implements CommandLineRunner{
         usuario1.setLogin("ana");
         usuario1.setSenha(new BCryptPasswordEncoder().encode("123456"));
         usuario1.setNome("Ana Maria");
-        usuario1.setPapeis(papeis);
         usuario1.setEmail("usuario1@teste.com");
+        usuario1.setDataNascimento(LocalDate.parse("25/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        usuario1.setPapeis(papeis);
 
         usuarioRepository.save(usuario1);
 
@@ -51,9 +54,10 @@ public class InitDataBase implements CommandLineRunner{
         usuario2.setLogin("joao");
         usuario2.setSenha(new BCryptPasswordEncoder().encode("123456"));
         usuario2.setNome("Joao das Neves");
+        usuario2.setEmail("usuario2@teste.com");
+        usuario2.setDataNascimento(LocalDate.parse("18/02/1982", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         papeis.add(roleAdmin);
         usuario2.setPapeis(papeis);
-        usuario2.setEmail("usuario2@teste.com");
 
         usuarioRepository.save(usuario2);        
     }

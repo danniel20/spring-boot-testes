@@ -1,5 +1,6 @@
 package com.securityteste.securityspringteste.model;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Set;
 
@@ -9,9 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import javax.validation.constraints.Past;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,21 +27,21 @@ import lombok.Setter;
 @Entity
 public class Usuario extends Base implements UserDetails{
 
-    @NotBlank
-    @Size(min=3, message = "deve possuir ao menos 3 caracteres.")
-    @Column(unique=true)
+    @Column(nullable = false, unique=true)
     private String login;
 
-    @NotBlank
-    @Size(min=6, message = "deve possuir ao menos 6 caracteres.")
+    @Column(nullable = false)
     private String senha;
 
-    @NotBlank
+    @Column(nullable = false)
     private String nome;
     
-    @Email(message = "Email inválido")
-    @Column(unique=true)
+    @Column(nullable=false, unique=true)
     private String email;
+
+    @Past
+    @Column(nullable = false)
+    private LocalDate dataNascimento;
 
     @ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "usuarios_papeis", 
