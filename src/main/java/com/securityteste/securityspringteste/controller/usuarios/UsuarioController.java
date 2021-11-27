@@ -135,10 +135,17 @@ public class UsuarioController {
     public ResponseEntity<Object> deletarPorId(@PathVariable Long id){
 
         try {
+            Optional<Usuario> usuario = usuarioService.bucarPorId(id);
+    
+            if(usuario.isEmpty()){
+                throw new Exception("Id do Usuário informado não existe!");
+            }
+
             usuarioService.deletarPorId(id);
             return ResponseHandler.generateResponse("Usuário removido com sucesso!", HttpStatus.NO_CONTENT, null);
+            
         } catch (Exception e) {
-            return ResponseHandler.generateResponse("Id do Usuário informado não existe!", HttpStatus.BAD_REQUEST, null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
     }
     

@@ -162,6 +162,22 @@ public class UsuarioControllerTest {
             .andExpect(status().isNoContent())
             .andExpect(jsonPath("$.data", nullValue()));
     }
+    
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    public void deveRetornarSatus400AoRemoverUsuarioPorIdInValido() throws Exception {
+        
+        Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+            .delete("/usuarios/-1")
+            .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.data", nullValue()))
+            .andExpect(jsonPath("$.message", is("Id do Usuário informado não existe!")));
+    }
 
     @AfterEach
     public void teardown(){
