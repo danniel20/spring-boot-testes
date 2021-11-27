@@ -8,6 +8,7 @@ import com.securityteste.securityspringteste.response.ResponseHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,12 +47,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({ java.lang.NumberFormatException.class})
     public ResponseEntity<Object> handleNumberFormatException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse("Erro ao tentar converter para valor numérico!", HttpStatus.BAD_REQUEST, null);
+        return ResponseHandler.generateResponse("Não foi possível converter a String para valor numérico!", HttpStatus.BAD_REQUEST, null);
     }
 
     @ExceptionHandler({ HttpRequestMethodNotSupportedException.class })
     public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(Exception ex, WebRequest request){
-        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+        return ResponseHandler.generateResponse(ex.getMessage(), HttpStatus.BAD_REQUEST, null);
+    }
+
+    @ExceptionHandler({ HttpMessageNotReadableException.class })
+    public ResponseEntity<Object> handleHttpRequestMethodNotReadableException(Exception ex, WebRequest request){
+        return ResponseHandler.generateResponse("Erro de formatação no arquivo JSON!", HttpStatus.BAD_REQUEST, null);
     }
 
 }
