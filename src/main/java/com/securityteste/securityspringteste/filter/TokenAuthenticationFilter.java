@@ -54,7 +54,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
                 return;
             }
             catch (MalformedJwtException ex) {
-                generateErrorResponse("Token invlálido!", request, response);
+                generateErrorResponse("Token inválido!", request, response);
                 return;
             }
         }
@@ -67,7 +67,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
                     new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                //usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
