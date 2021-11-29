@@ -34,9 +34,9 @@ public class AuthenticationController {
         try{
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
                 new UsernamePasswordAuthenticationToken(loginDTO.getLogin(), loginDTO.getPassword());
-    
-            Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-    
+            
+            Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);            
+
             String token = tokenService.generateToken(authentication);
             
             return ResponseHandler.generateResponse(

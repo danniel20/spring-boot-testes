@@ -1,14 +1,15 @@
 package com.securityteste.securityspringteste.config.security;
 
 import com.securityteste.securityspringteste.filter.TokenAuthenticationFilter;
+
 import com.securityteste.securityspringteste.service.auth.TokenService;
-import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
+import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -27,7 +28,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private UsuarioServiceImpl usuarioServiceImpl;
 
     @Autowired
     private TokenService tokenService;
@@ -48,14 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-    }
-
     @Bean
     public OncePerRequestFilter tokenAuthenticationFilter(){
-        return new TokenAuthenticationFilter(this.tokenService, this.userDetailsServiceImpl);
+        return new TokenAuthenticationFilter(this.tokenService, this.usuarioServiceImpl);
     }
 
     @Override

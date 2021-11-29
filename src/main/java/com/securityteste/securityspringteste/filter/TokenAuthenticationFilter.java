@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.securityteste.securityspringteste.service.auth.TokenService;
-import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
+import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,11 +26,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
     private static final String BEARER_PREFIX = "Bearer";
 
     private TokenService tokenService;
-    private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public TokenAuthenticationFilter(TokenService tokenService, UserDetailsServiceImpl userDetailsServiceImpl){
+    private UsuarioServiceImpl usuarioServiceImpl;
+
+    public TokenAuthenticationFilter(TokenService tokenService, UsuarioServiceImpl usuarioServiceImpl){
         this.tokenService = tokenService;
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.usuarioServiceImpl = usuarioServiceImpl;
     }
     
     @Override
@@ -60,14 +61,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
         }
 
         if(userNameToken != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails usuario = userDetailsServiceImpl.loadUserByUsername(userNameToken);
+            
+            UserDetails usuario = usuarioServiceImpl.buscarPorLogin(userNameToken).get();
 
             if(usuario != null && this.tokenService.isTokenValid(token)){
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
                     new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
-                //usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
