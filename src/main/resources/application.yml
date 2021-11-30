@@ -21,8 +21,9 @@ jwt:
 ---
 
 spring:
-  profiles:
-    active: development
+  config:
+    activate:
+      on-profile: development
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testedb
@@ -40,8 +41,9 @@ spring:
 ---
 
 spring:
-  profiles:
-    active: production
+  config:
+    activate:
+      on-profile: production
   datasource:
     driver-class-name:
     url: 
