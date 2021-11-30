@@ -92,7 +92,7 @@ public class UsuarioControllerTest {
     @WithMockUser(roles = {"ADMIN", "USER"})
     public void deveRetornarStatus200AoObterUsuarioPorIdValido() throws Exception {
 
-        Mockito.when(usuarioService.bucarPorId(this.usuariosList.get(0).getId())).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
+        Mockito.when(usuarioService.bucarPorId(1L)).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
             .get("/usuarios/1")
@@ -106,7 +106,7 @@ public class UsuarioControllerTest {
     
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
-    public void deveRetornarStatus400AoObterUsuarioPorIdInValido() throws Exception {
+    public void deveRetornarStatus400AoObterUsuarioPorIdInvalido() throws Exception {
 
         Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
 
@@ -121,8 +121,33 @@ public class UsuarioControllerTest {
     }
     
     @Test
+    @WithMockUser(roles = {"ADMIN", "USER"})
+    public void deveRetornarStatus400AoObterUsuarioPorIdNull() throws Exception {
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+            .get("/usuarios/null")
+            .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(mockRequest)
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.data", nullValue()))
+            .andExpect(jsonPath("$.message", is("Não foi possível converter a String para valor numérico!")));
+    }
+    
+    @Test
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarStatus201AoCriarUsuarioValido() throws Exception {
+        
+        Usuario saved = Usuario.builder()
+            .login("alex")
+            .senha(passwordEncoder.encode("123456"))
+            .nome("Alex de Souza")
+            .email("alex@teste.com")
+            .dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
+            .build();
+        
+        saved.setId(1L);
 
         UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", "15/08/1991", new String[]{"USER"});
         
@@ -135,7 +160,7 @@ public class UsuarioControllerTest {
             .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
             .build();
 
-        Mockito.when(usuarioService.salvar(novo)).thenReturn(novo);
+        Mockito.when(usuarioService.salvar(novo)).thenReturn(saved);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +170,8 @@ public class UsuarioControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data", notNullValue()))
-                .andExpect(jsonPath("$.data.nome", is("Alex de Souza")));
+                .andExpect(jsonPath("$.data.nome", is("Alex de Souza")))
+                .andExpect(jsonPath("$.data.id", is(1)));
     }
 
     @Test
