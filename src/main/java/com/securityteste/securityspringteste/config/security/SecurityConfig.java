@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("método configure (HttpSecurity ...)");
         http
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/auth").permitAll()
