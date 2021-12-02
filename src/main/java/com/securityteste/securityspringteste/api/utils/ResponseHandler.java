@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.response;
+package com.securityteste.securityspringteste.api.utils;
 
 import java.util.HashMap;
 import java.util.Map;

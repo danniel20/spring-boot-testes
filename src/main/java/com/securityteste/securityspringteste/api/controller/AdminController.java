@@ -1,6 +1,6 @@
-package com.securityteste.securityspringteste.controller;
+package com.securityteste.securityspringteste.api.controller;
 
-import com.securityteste.securityspringteste.response.ResponseHandler;
+import com.securityteste.securityspringteste.api.utils.ResponseHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     @GetMapping

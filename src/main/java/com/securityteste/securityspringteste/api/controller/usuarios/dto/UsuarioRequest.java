@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.controller.usuarios.dto;
+package com.securityteste.securityspringteste.api.controller.usuarios.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

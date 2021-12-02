@@ -1,10 +1,10 @@
-package com.securityteste.securityspringteste.controller.auth;
+package com.securityteste.securityspringteste.api.controller.auth;
 
 import javax.validation.Valid;
 
-import com.securityteste.securityspringteste.controller.auth.dto.LoginDTO;
-import com.securityteste.securityspringteste.controller.auth.dto.TokenDTO;
-import com.securityteste.securityspringteste.response.ResponseHandler;
+import com.securityteste.securityspringteste.api.controller.auth.dto.LoginDTO;
+import com.securityteste.securityspringteste.api.controller.auth.dto.TokenDTO;
+import com.securityteste.securityspringteste.api.utils.ResponseHandler;
 import com.securityteste.securityspringteste.service.auth.TokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthenticationController {
 
     @Autowired

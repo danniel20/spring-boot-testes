@@ -1,9 +1,9 @@
-package com.securityteste.securityspringteste.exceptions;
+package com.securityteste.securityspringteste.api.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.securityteste.securityspringteste.response.ResponseHandler;
+import com.securityteste.securityspringteste.api.utils.ResponseHandler;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.controller.auth.dto;
+package com.securityteste.securityspringteste.api.controller.auth.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

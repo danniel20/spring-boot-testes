@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.controller;
+package com.securityteste.securityspringteste.api.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.securityteste.securityspringteste.controller.usuarios.UsuarioController;
-import com.securityteste.securityspringteste.controller.usuarios.dto.UsuarioRequest;
+import com.securityteste.securityspringteste.api.controller.usuarios.UsuarioController;
+import com.securityteste.securityspringteste.api.controller.usuarios.dto.UsuarioRequest;
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.service.auth.TokenService;
@@ -81,7 +81,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.buscarTodos()).thenReturn(this.usuariosList);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .get("/usuarios")
+            .get("/api/usuarios")
             .contentType(MediaType.APPLICATION_JSON);
         
         mockMvc.perform(mockRequest)
@@ -97,7 +97,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.bucarPorId(1L)).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .get("/usuarios/1")
+            .get("/api/usuarios/1")
             .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)
@@ -113,7 +113,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .get("/usuarios/-1")
+            .get("/api/usuarios/-1")
             .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)
@@ -127,7 +127,7 @@ public class UsuarioControllerTest {
     public void deveRetornarStatus400AoObterUsuarioPorIdNull() throws Exception {
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .get("/usuarios/null")
+            .get("/api/usuarios/null")
             .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)
@@ -164,7 +164,7 @@ public class UsuarioControllerTest {
 
         Mockito.when(usuarioService.salvar(novo)).thenReturn(saved);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/usuarios")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(this.mapper.writeValueAsString(usuarioRequest));
@@ -183,7 +183,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.bucarPorId(this.usuariosList.get(0).getId())).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .delete("/usuarios/1")
+            .delete("/api/usuarios/1")
             .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)
@@ -198,7 +198,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-            .delete("/usuarios/-1")
+            .delete("/api/usuarios/-1")
             .contentType(MediaType.APPLICATION_JSON);
 
         mockMvc.perform(mockRequest)

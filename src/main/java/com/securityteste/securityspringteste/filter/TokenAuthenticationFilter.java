@@ -76,7 +76,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);        
     }
 
-    public void generateErrorResponse(String errorMessage, HttpServletRequest request, HttpServletResponse response) throws IOException{
+    private void generateErrorResponse(String errorMessage, HttpServletRequest request, HttpServletResponse response) throws IOException{
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         sb.append("\"error\": \"Unauthorized\",");

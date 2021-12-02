@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.controller.usuarios;
+package com.securityteste.securityspringteste.api.controller.usuarios;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,11 +11,11 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-import com.securityteste.securityspringteste.controller.usuarios.dto.UsuarioRequest;
-import com.securityteste.securityspringteste.controller.usuarios.dto.UsuarioResponse;
+import com.securityteste.securityspringteste.api.controller.usuarios.dto.UsuarioRequest;
+import com.securityteste.securityspringteste.api.controller.usuarios.dto.UsuarioResponse;
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
-import com.securityteste.securityspringteste.response.ResponseHandler;
+import com.securityteste.securityspringteste.api.utils.ResponseHandler;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.beans.BeanUtils;
@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     @Autowired
