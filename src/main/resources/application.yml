@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: production
 
 server:
   error:
@@ -26,15 +26,15 @@ spring:
     activate:
       on-profile: development
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testedb
-    username: sa
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: postgres
     password:
   h2:
     console:
       enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
@@ -63,12 +63,12 @@ spring:
     activate:
       on-profile: production
   datasource:
-    driver-class-name:
-    url: 
-    username: 
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
   jpa:
-    database-platform: 
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
