@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: production
+    active: development
 
 server:
   error:
@@ -30,14 +30,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/mydb
     username: postgres
     password:
-  h2:
-    console:
-      enabled: true
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       
 ---
 
@@ -50,6 +47,9 @@ spring:
     url: jdbc:h2:mem:testedb;DB_CLOSE_DELAY=-1
     username: sa
     password:
+  h2:
+    console:
+      enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
