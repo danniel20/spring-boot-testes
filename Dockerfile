@@ -11,4 +11,3 @@ RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip
 #
 FROM openjdk:16-jdk-alpine
 COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]

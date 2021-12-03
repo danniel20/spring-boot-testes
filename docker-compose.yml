@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: java -jar /app.jar
     ports:
       - "8080:8080"
     network_mode: host
