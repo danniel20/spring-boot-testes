@@ -2,7 +2,7 @@ package com.securityteste.securityspringteste.repository;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
+
 import java.util.Optional;
 
 import com.securityteste.securityspringteste.model.Papel;
@@ -32,14 +32,19 @@ public class UsuarioRepositoryTest {
 
     @BeforeEach
     public void setup(){
+        Papel roleUser = new Papel();
+        roleUser.setNome("USER");
+
         this.usuario = Usuario.builder()
                                     .login("fulano")
                                     .senha("123456")
                                     .email("fulano@teste.com")
                                     .nome("Fulano da Silva")
                                     .dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                                    .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
+                                    //.papeis(new HashSet<Papel>(){{add(roleUser);}})
                                     .build();
+
+        this.usuario.getPapeis().add(roleUser);
         
     }
 

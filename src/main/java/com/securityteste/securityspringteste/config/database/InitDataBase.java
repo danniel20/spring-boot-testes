@@ -3,8 +3,7 @@ package com.securityteste.securityspringteste.config.database;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
@@ -29,37 +28,37 @@ public class InitDataBase implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
+
         Papel roleUser = new Papel();
         roleUser.setNome("USER");
-        papelRepository.save(roleUser);
-
+        
         Papel roleAdmin = new Papel();
-        roleAdmin.setNome("ADMIN");
-        papelRepository.save(roleAdmin);
+        roleAdmin.setNome("ADMIN");     
 
-        Set<Papel> papeis = new HashSet<Papel>();
-        papeis.add(roleUser);
+        this.papelRepository.saveAll(Arrays.asList(roleUser, roleAdmin));
 
-        Usuario usuario1 = new Usuario();
-        usuario1.setLogin("ana");
-        usuario1.setSenha(new BCryptPasswordEncoder().encode("123456"));
-        usuario1.setNome("Ana Maria");
-        usuario1.setEmail("usuario1@teste.com");
-        usuario1.setDataNascimento(LocalDate.parse("25/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        usuario1.setPapeis(papeis);
-
-        usuarioRepository.save(usuario1);
-
-        Usuario usuario2 = new Usuario();
-        usuario2.setLogin("joao");
-        usuario2.setSenha(new BCryptPasswordEncoder().encode("123456"));
-        usuario2.setNome("Joao das Neves");
-        usuario2.setEmail("usuario2@teste.com");
-        usuario2.setDataNascimento(LocalDate.parse("18/02/1982", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        papeis.add(roleAdmin);
-        usuario2.setPapeis(papeis);
-
-        usuarioRepository.save(usuario2);        
+        Usuario usuario1 = Usuario.builder()
+                            .login("ana")
+                            .senha(new BCryptPasswordEncoder().encode("123456"))
+                            .nome("Ana Maria")
+                            .email("ana@teste.com")
+                            .dataNascimento(LocalDate.parse("25/09/1989", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                            .build();
+        
+        usuario1.getPapeis().add(roleUser);
+                            
+        Usuario usuario2 = Usuario.builder()
+                            .login("joao")
+                            .senha(new BCryptPasswordEncoder().encode("123456"))
+                            .nome("Joao das Neves")
+                            .email("joao@teste.com")
+                            .dataNascimento(LocalDate.parse("18/02/1982", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                            .build();
+        
+        usuario2.getPapeis().add(roleUser);
+        usuario2.getPapeis().add(roleAdmin);
+        
+        this.usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2));
     }
     
 }

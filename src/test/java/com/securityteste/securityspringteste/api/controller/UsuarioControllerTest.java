@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +13,7 @@ import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.service.auth.TokenService;
 import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
+import com.securityteste.securityspringteste.service.papeis.PapelServiceImpl;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.junit.jupiter.api.AfterEach;
@@ -46,6 +46,9 @@ public class UsuarioControllerTest {
 
     @MockBean
     private UsuarioServiceImpl usuarioService;
+
+    @MockBean
+    private PapelServiceImpl papelService;
 
     @MockBean
     private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -140,15 +143,19 @@ public class UsuarioControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarStatus201AoCriarUsuarioValido() throws Exception {
         
+        Papel roleUser = new Papel();
+        roleUser.setNome("USER");
+
         Usuario saved = Usuario.builder()
             .login("alex")
             .senha(passwordEncoder.encode("123456"))
             .nome("Alex de Souza")
             .email("alex@teste.com")
-            .dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-            .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
+            .dataNascimento(LocalDate.parse("15/08/1991", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+            //.papeis(new HashSet<Papel>(){{add(roleUser);}})
             .build();
         
+        saved.getPapeis().add(roleUser);
         saved.setId(1L);
 
         UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", "15/08/1991", new String[]{"USER"});
@@ -159,8 +166,9 @@ public class UsuarioControllerTest {
             .nome(usuarioRequest.getNome())
             .email(usuarioRequest.getEmail())
             .dataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-            .papeis(new HashSet<Papel>(){{add(Papel.builder().nome("USER").build());}})
             .build();
+
+        novo.getPapeis().add(roleUser);
 
         Mockito.when(usuarioService.salvar(novo)).thenReturn(saved);
 

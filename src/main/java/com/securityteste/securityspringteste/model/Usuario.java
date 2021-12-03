@@ -2,6 +2,7 @@ package com.securityteste.securityspringteste.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Past;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +22,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@SequenceGenerator(name = "sequence_id", sequenceName = "usuario_sequence_id", allocationSize = 1)
 public class Usuario extends Base implements UserDetails{
 
     @Column(nullable = false, unique=true)
@@ -45,11 +49,12 @@ public class Usuario extends Base implements UserDetails{
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER/*, cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}*/)
 	@JoinTable(name = "usuarios_papeis", 
-	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "login"), 
-	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "nome")) 
-    private Set<Papel> papeis;
+	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), 
+	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))
+    @Builder.Default
+    private Set<Papel> papeis = new HashSet<Papel>();
 
     @Override
     public String getPassword() {

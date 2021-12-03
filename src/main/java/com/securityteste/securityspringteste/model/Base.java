@@ -16,7 +16,7 @@ public abstract class Base implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
     private Long id;
     
 }
