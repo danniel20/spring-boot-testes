@@ -152,7 +152,6 @@ public class UsuarioControllerTest {
             .nome("Alex de Souza")
             .email("alex@teste.com")
             .dataNascimento(LocalDate.parse("15/08/1991", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-            //.papeis(new HashSet<Papel>(){{add(roleUser);}})
             .build();
         
         saved.getPapeis().add(roleUser);
@@ -170,7 +169,8 @@ public class UsuarioControllerTest {
 
         novo.getPapeis().add(roleUser);
 
-        Mockito.when(usuarioService.salvar(novo)).thenReturn(saved);
+        Mockito.when(this.papelService.bucarPorNome("ROLE_USER")).thenReturn(java.util.Optional.of(roleUser));
+        Mockito.when(this.usuarioService.salvar(novo)).thenReturn(saved);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/usuarios")
                 .contentType(MediaType.APPLICATION_JSON)

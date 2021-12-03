@@ -55,10 +55,13 @@ public class UsuarioController {
                 return ResponseHandler.generateResponse("Já existe usuário cadastrado com esse login!", HttpStatus.CREATED, null);
             }
 
-            Usuario usuarioNovo = Usuario.builder().build();
-            BeanUtils.copyProperties(usuarioRequest, usuarioNovo, "dataNascimento", "papeis");
-            usuarioNovo.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
-            usuarioNovo.setDataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            Usuario usuarioNovo = Usuario.builder()
+                .login(usuarioRequest.getLogin())
+                .nome(usuarioRequest.getNome())
+                .email(usuarioRequest.getEmail())
+                .senha(passwordEncoder.encode(usuarioRequest.getSenha()))
+                .dataNascimento(LocalDate.parse(usuarioRequest.getDataNascimento(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .build();
 
             if(usuarioRequest.getPapeis() == null || usuarioRequest.getPapeis().length == 0){
                 Papel papel = this.papelService.bucarPorNome("ROLE_USER").get();
@@ -77,7 +80,6 @@ public class UsuarioController {
             BeanUtils.copyProperties(saved, usuarioResponse);
 
             return ResponseHandler.generateResponse("Usuário cadastrado com sucesso!", HttpStatus.CREATED, usuarioResponse);
-
         } catch (Exception e) {
             return ResponseHandler.generateResponse("Erro ao cadastrar Usuário.", HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -98,8 +100,7 @@ public class UsuarioController {
             BeanUtils.copyProperties(usuario.get(), usuarioResponse);
     
             return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
-        }
-        catch(Exception e){
+        } catch(Exception e){
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
 
