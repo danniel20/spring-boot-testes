@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
@@ -43,11 +44,12 @@ public class SecurityConfig{
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
+                .antMatcher("/api/**")
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .csrf().disable()
+                    .csrf().disable()
                 .exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -80,7 +82,28 @@ public class SecurityConfig{
     }
 
     @Configuration
+    @Order(2)
     public static class FormLoginWebSecurityConfiguration extends WebSecurityConfigurerAdapter{
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .antMatcher("/**")
+                .authorizeRequests()
+                    .antMatchers("/home").permitAll()
+                    .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                // .and()
+                //.logout()
+                    //.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    //.logoutSuccessUrl("/admin")
+                    // .clearAuthentication(true)
+                    //.deleteCookies("JSESSIONID")
+                    //.invalidateHttpSession(true)
+                .and()
+                .exceptionHandling().accessDeniedPage("/403");
+        }
 
         @Override
         public void configure(WebSecurity web) throws Exception {

@@ -35,6 +35,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  thymeleaf:
+    cache: false
       
 ---
 

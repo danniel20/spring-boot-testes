@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter{
@@ -54,7 +55,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
                 generateErrorResponse("Token não suportado!", request, response);
                 return;
             }
-            catch (MalformedJwtException ex) {
+            catch (MalformedJwtException | SignatureException ex) {
                 generateErrorResponse("Token inválido!", request, response);
                 return;
             }

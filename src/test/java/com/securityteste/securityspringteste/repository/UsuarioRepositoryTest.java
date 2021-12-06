@@ -13,20 +13,27 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+//import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DataJpaTest
+@DataJpaTest(properties = {
+    "logging.level.ROOT= WARN",
+    "logging.level.org.springframework.test.context.transaction= INFO",
+    "logging.level.org.hibernate.SQL= DEBUG"
+})
 @ActiveProfiles("test")
 public class UsuarioRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+    // @Autowired
+    // private TestEntityManager entityManager;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PapelRepository papelRepository;
 
     private Usuario usuario;
 
@@ -35,25 +42,24 @@ public class UsuarioRepositoryTest {
         Papel roleUser = new Papel();
         roleUser.setNome("USER");
 
+        Papel papelUser = this.papelRepository.saveAndFlush(roleUser);
+
         this.usuario = Usuario.builder()
                                     .login("fulano")
                                     .senha("123456")
                                     .email("fulano@teste.com")
                                     .nome("Fulano da Silva")
                                     .dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                                    //.papeis(new HashSet<Papel>(){{add(roleUser);}})
                                     .build();
 
-        this.usuario.getPapeis().add(roleUser);
-        
+        this.usuario.getPapeis().add(papelUser);
+
+        this.usuario = this.usuarioRepository.saveAndFlush(this.usuario);  
     }
 
     @Test
     public void deveRetornarUsuarioPorLogin(){
-        
-        this.entityManager.persistAndFlush(this.usuario);
-
-        Optional<Usuario> encontrado = usuarioRepository.findByLogin(this.usuario.getLogin());
+        Optional<Usuario> encontrado = this.usuarioRepository.findByLogin(this.usuario.getLogin());
 
         assertThat(encontrado.get().getId()).isNotNull();
         assertThat(encontrado.get().getLogin()).isEqualTo(this.usuario.getLogin());
@@ -61,12 +67,9 @@ public class UsuarioRepositoryTest {
     
     @Test
     public void deveRetornarTrueAoRemoverUsuario(){
-        
-        Usuario usuarioNovo = this.entityManager.persistAndFlush(this.usuario);
+        this.usuarioRepository.delete(this.usuario);
 
-        this.usuarioRepository.delete(usuarioNovo);
-
-        Optional<Usuario> encontrado = usuarioRepository.findById(usuarioNovo.getId());
+        Optional<Usuario> encontrado = this.usuarioRepository.findById(this.usuario.getId());
 
         assertThat(encontrado.isEmpty()).isTrue();
     }
@@ -74,6 +77,8 @@ public class UsuarioRepositoryTest {
     @AfterEach
     public void teardown(){
         this.usuario = null;
+        this.usuarioRepository.deleteAll();
+        this.papelRepository.deleteAll();
     }
     
 }
