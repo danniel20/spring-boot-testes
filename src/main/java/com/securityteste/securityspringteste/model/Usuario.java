@@ -33,6 +33,8 @@ import lombok.ToString;
 @SequenceGenerator(name = "sequence_id", sequenceName = "usuario_sequence_id", allocationSize = 1)
 public class Usuario extends Base implements UserDetails{
 
+    private static final long serialVersionUID = 1L;
+
     @Column(nullable = false, unique=true)
     private String login;
 

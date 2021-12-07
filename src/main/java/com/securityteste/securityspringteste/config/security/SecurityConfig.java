@@ -24,14 +24,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig{
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean  
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() { 
+        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix  
+    }
 
     @Configuration
     @Order(1)
@@ -76,16 +85,6 @@ public class SecurityConfig{
         protected AuthenticationManager authenticationManager() throws Exception{
             return super.authenticationManager();
         }      
-
-        @Bean
-        public PasswordEncoder passwordEncoder(){
-            return new BCryptPasswordEncoder();
-        }
-
-        @Bean  
-        GrantedAuthorityDefaults grantedAuthorityDefaults() { 
-            return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix  
-        }
     }
 
     @Configuration
@@ -98,11 +97,12 @@ public class SecurityConfig{
                 .antMatcher("/**")
                 .authorizeRequests()
                     .antMatchers("/home").permitAll()
+                    //.antMatchers( "/public/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                .httpBasic()
-                .and()
-                .logout()
+                .formLogin()
+                //.and()
+                //.logout()
                     //.logoutUrl("/logout")
                     //.addLogoutHandler(new SecurityContextLogoutHandler())
                     //.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -111,7 +111,8 @@ public class SecurityConfig{
                     //.deleteCookies("JSESSIONID")
                     //.invalidateHttpSession(true)
                 .and()
-                .exceptionHandling().accessDeniedPage("/403");
+                .exceptionHandling()
+                    .accessDeniedPage("/accessDenied");
         }
 
         @Override
