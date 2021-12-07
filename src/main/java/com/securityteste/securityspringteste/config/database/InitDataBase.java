@@ -29,11 +29,8 @@ public class InitDataBase implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
 
-        Papel roleUser = new Papel();
-        roleUser.setNome("USER");
-        
-        Papel roleAdmin = new Papel();
-        roleAdmin.setNome("ADMIN");     
+        Papel roleUser = Papel.builder().nome("USER").build();
+        Papel roleAdmin = Papel.builder().nome("ADMIN").build();
 
         this.papelRepository.saveAll(Arrays.asList(roleUser, roleAdmin));
 

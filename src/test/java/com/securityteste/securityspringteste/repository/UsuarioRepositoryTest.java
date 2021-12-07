@@ -19,9 +19,9 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest(properties = {
-    "logging.level.ROOT= WARN",
-    "logging.level.org.springframework.test.context.transaction= INFO",
-    "logging.level.org.hibernate.SQL= DEBUG"
+    "logging.level.ROOT=WARN",
+    "logging.level.org.springframework.test.context.transaction=INFO",
+    "logging.level.org.hibernate.SQL=DEBUG"
 })
 @ActiveProfiles("test")
 public class UsuarioRepositoryTest {
@@ -39,8 +39,7 @@ public class UsuarioRepositoryTest {
 
     @BeforeEach
     public void setup(){
-        Papel roleUser = new Papel();
-        roleUser.setNome("USER");
+        Papel roleUser = Papel.builder().nome("USER").build();
 
         Papel papelUser = this.papelRepository.saveAndFlush(roleUser);
 
@@ -58,7 +57,7 @@ public class UsuarioRepositoryTest {
     }
 
     @Test
-    public void deveRetornarUsuarioPorLogin(){
+    public void deveRetornarUsuarioAoBuscarPorLoginValido(){
         Optional<Usuario> encontrado = this.usuarioRepository.findByLogin(this.usuario.getLogin());
 
         assertThat(encontrado.get().getId()).isNotNull();
@@ -66,7 +65,7 @@ public class UsuarioRepositoryTest {
     }
     
     @Test
-    public void deveRetornarTrueAoRemoverUsuario(){
+    public void deveRetornarTrueAoRemoverUsuarioExistente(){
         this.usuarioRepository.delete(this.usuario);
 
         Optional<Usuario> encontrado = this.usuarioRepository.findById(this.usuario.getId());

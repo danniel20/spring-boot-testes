@@ -64,12 +64,12 @@ public class UsuarioController {
                 .build();
 
             if(usuarioRequest.getPapeis() == null || usuarioRequest.getPapeis().length == 0){
-                Papel papel = this.papelService.bucarPorNome("ROLE_USER").get();
+                Papel papel = this.papelService.bucarPorNome("USER").get();
                 usuarioNovo.getPapeis().add(papel);
             }
             else{
                 Arrays.stream(usuarioRequest.getPapeis()).forEach(papelString -> {
-                    Papel papel = this.papelService.bucarPorNome("ROLE_" + papelString).get();
+                    Papel papel = this.papelService.bucarPorNome(papelString).get();
                     usuarioNovo.getPapeis().add(papel);
                 });
             }

@@ -143,8 +143,7 @@ public class UsuarioControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarStatus201AoCriarUsuarioValido() throws Exception {
         
-        Papel roleUser = new Papel();
-        roleUser.setNome("USER");
+        Papel roleUser = Papel.builder().nome("USER").build();
 
         Usuario saved = Usuario.builder()
             .login("alex")
@@ -169,7 +168,7 @@ public class UsuarioControllerTest {
 
         novo.getPapeis().add(roleUser);
 
-        Mockito.when(this.papelService.bucarPorNome("ROLE_USER")).thenReturn(java.util.Optional.of(roleUser));
+        Mockito.when(this.papelService.bucarPorNome("USER")).thenReturn(java.util.Optional.of(roleUser));
         Mockito.when(this.usuarioService.salvar(novo)).thenReturn(saved);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/usuarios")
