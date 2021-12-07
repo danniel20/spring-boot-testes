@@ -17,12 +17,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -73,11 +75,16 @@ public class SecurityConfig{
         @Override
         protected AuthenticationManager authenticationManager() throws Exception{
             return super.authenticationManager();
-        }        
+        }      
 
         @Bean
         public PasswordEncoder passwordEncoder(){
             return new BCryptPasswordEncoder();
+        }
+
+        @Bean  
+        GrantedAuthorityDefaults grantedAuthorityDefaults() { 
+            return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix  
         }
     }
 
@@ -94,11 +101,13 @@ public class SecurityConfig{
                     .anyRequest().authenticated()
                 .and()
                 .httpBasic()
-                // .and()
-                //.logout()
+                .and()
+                .logout()
+                    //.logoutUrl("/logout")
+                    //.addLogoutHandler(new SecurityContextLogoutHandler())
                     //.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     //.logoutSuccessUrl("/admin")
-                    // .clearAuthentication(true)
+                     //.clearAuthentication(true)
                     //.deleteCookies("JSESSIONID")
                     //.invalidateHttpSession(true)
                 .and()
