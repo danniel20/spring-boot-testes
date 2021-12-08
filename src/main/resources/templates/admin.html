@@ -12,5 +12,9 @@
     <p><span th:text="${#authentication.getPrincipal().getUsername()}"></span></p>
     <!-- <p><span th:text="${#authentication.name}"></span></p> -->
     <!-- <p><span sec:authentication="name"></span></p> -->
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Logout"/>
+    </form>
 </body>
 </html>

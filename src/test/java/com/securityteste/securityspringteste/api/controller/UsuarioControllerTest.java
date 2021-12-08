@@ -59,7 +59,7 @@ public class UsuarioControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    @Autowired
+    @MockBean
     private PasswordEncoder passwordEncoder;
 
     private List<Usuario> usuariosList;
@@ -136,7 +136,7 @@ public class UsuarioControllerTest {
         mockMvc.perform(mockRequest)
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.data", nullValue()))
-            .andExpect(jsonPath("$.message", is("Não foi possível converter a String para valor numérico!")));
+            .andExpect(jsonPath("$.message", is("Erro de conversão!")));
     }
     
     @Test

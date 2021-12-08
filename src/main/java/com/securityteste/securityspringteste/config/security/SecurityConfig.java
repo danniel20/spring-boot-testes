@@ -93,22 +93,18 @@ public class SecurityConfig{
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .antMatcher("/**")
                 .authorizeRequests()
-                    .antMatchers("/home").permitAll()
+                    //.antMatchers("/home").permitAll()
                     //.antMatchers( "/public/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                //.and()
-                //.logout()
-                    //.logoutUrl("/logout")
-                    //.addLogoutHandler(new SecurityContextLogoutHandler())
-                    //.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    //.logoutSuccessUrl("/admin")
-                     //.clearAuthentication(true)
-                    //.deleteCookies("JSESSIONID")
-                    //.invalidateHttpSession(true)
+                    .loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/home")
+                .and()
+                .logout().permitAll()
+                    // .deleteCookies("JSESSIONID")
+                    // .invalidateHttpSession(true)
                 .and()
                 .exceptionHandling()
                     .accessDeniedPage("/accessDenied");
@@ -118,8 +114,9 @@ public class SecurityConfig{
         public void configure(WebSecurity web) throws Exception {
             web
                 .ignoring()
-                    .antMatchers("/resources/**");
+                    .antMatchers("/resources/**", "/webjars/**");
         }
    
     }
+
 }
