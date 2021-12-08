@@ -1,7 +1,6 @@
 package com.securityteste.securityspringteste.config.security;
 
-import com.securityteste.securityspringteste.filter.TokenAuthenticationFilter;
-
+import com.securityteste.securityspringteste.api.filter.TokenAuthenticationFilter;
 import com.securityteste.securityspringteste.service.auth.TokenService;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
@@ -121,7 +120,6 @@ public class SecurityConfig{
                 .ignoring()
                     .antMatchers("/resources/**");
         }
-
-    }    
-
+   
+    }
 }

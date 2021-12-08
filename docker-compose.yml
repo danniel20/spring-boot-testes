@@ -8,24 +8,23 @@ services:
     command: java -jar /app.jar
     ports:
       - "8080:8080"
-    network_mode: host
     environment:
-      DATABASE_HOST: localhost
+      DATABASE_HOST: database
       DATABASE_PORT: 5432
       DATABASE_NAME: mydb
       DATABASE_USER: postgres
       DATABASE_PASSWORD: 123
 
-#   database:
-#     image: postgres:9.6
-#     volumes:
-#       - db_data:/var/lib/postgresql/data
-#     environment:
-#       POSTGRES_DB: mydb
-#       POSTGRES_PASSWORD: 123
-#       POSTGRES_HOST_AUTH_METHOD: trust
-#     ports:
-#       - "5433:5432"
+  database:
+    image: postgres:9.6
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_PASSWORD: 123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5433:5432"
 
-# volumes:
-#   db_data:
+volumes:
+  db_data:

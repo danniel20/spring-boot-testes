@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,9 @@
     <title>Home Page</title>
 </head>
 <body>
-    <p>Welcome to Home Page!</p>    
+    <p><span th:text="${message}"></span></p>
+    <div sec:authorize=”isAuthenticated()”>
+        <p><span th:text="${#authentication.getPrincipal().getNome()}"></span></p>
+    </div>
 </body>
 </html>

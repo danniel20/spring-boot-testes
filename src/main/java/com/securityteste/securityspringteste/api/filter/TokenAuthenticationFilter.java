@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.filter;
+package com.securityteste.securityspringteste.api.filter;
 
 import java.io.IOException;
 
