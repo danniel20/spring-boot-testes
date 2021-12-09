@@ -36,21 +36,21 @@ public class SecurityConfig{
         return new BCryptPasswordEncoder();
     }
 
-    @Bean  
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() { 
-        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix  
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
     }
 
     @Configuration
     @Order(1)
     public static class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter{
-        
+
         @Autowired
         private UsuarioServiceImpl usuarioServiceImpl;
 
         @Autowired
         private TokenService tokenService;
-        
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
@@ -83,7 +83,7 @@ public class SecurityConfig{
         @Override
         protected AuthenticationManager authenticationManager() throws Exception{
             return super.authenticationManager();
-        }      
+        }
     }
 
     @Configuration
@@ -100,7 +100,7 @@ public class SecurityConfig{
                 .and()
                 .formLogin()
                     .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/home")
+                    .defaultSuccessUrl("/home", true)
                 .and()
                 .logout().permitAll()
                     // .deleteCookies("JSESSIONID")
@@ -116,7 +116,7 @@ public class SecurityConfig{
                 .ignoring()
                     .antMatchers("/resources/**", "/webjars/**");
         }
-   
+
     }
 
 }
