@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{layouts/layout}"
                 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -8,13 +10,19 @@
     <title>Admin Page</title>
 </head>
 <body>
-    <p>Área administrativa protegida!</p>
-    <p><span th:text="${#authentication.getPrincipal().getUsername()}"></span></p>
-    <!-- <p><span th:text="${#authentication.name}"></span></p> -->
-    <!-- <p><span sec:authentication="name"></span></p> -->
 
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Logout"/>
-    </form>
+    <div layout:fragment="content">
+   
+        <div class="bg-light p-5 rounded mt-3">
+
+          <h3>Área Administrativa.</h3>
+          
+          <p class="lead">
+            Olá <strong><span th:text="${#authentication.getPrincipal().getNome()}"></span></strong></span>!
+          </p>
+          
+        </div>
+    </div>
+    
 </body>
 </html>

@@ -94,7 +94,7 @@ public class SecurityConfig{
         protected void configure(HttpSecurity http) throws Exception {
             http
                 .authorizeRequests()
-                    //.antMatchers("/home").permitAll()
+                    // .antMatchers("/home").permitAll()
                     //.antMatchers( "/public/**").permitAll()
                     .anyRequest().authenticated()
                 .and()

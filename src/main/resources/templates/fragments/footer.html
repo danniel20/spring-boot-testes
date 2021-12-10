@@ -1,14 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Footer</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="footer">
-      &copy; 2021 Footer
-    </div>
+    <footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
+      <div class="container d-flex justify-content-center">
+        <span class="text-muted">&copy; 2021 Spring Boot App</span>
+      </div>
+    </footer>
 </body>
 </html>
