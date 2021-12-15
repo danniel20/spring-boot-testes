@@ -1,10 +1,11 @@
-spring:
-  profiles:
-    active: development
-
 server:
+  port: ${env.SERVER_PORT}
   error:
     include-message: always
+
+spring:
+  profiles:
+    active: ${env.ACTIVE_PROFILE}
 
 logging:
   level:
@@ -16,7 +17,7 @@ logging:
       hibernate: error
 
 jwt:
-  secret: meu_segredo
+  secret: ${env.API_TOKEN_SECRET}
   expiration: 30
 
 ---
@@ -24,20 +25,20 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: development
+      on-profile: ${env.ACTIVE_PROFILE}
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/mydb
-    username: postgres
-    password:
+    url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
+    username: ${env.POSTGRES_USER}
+    password: ${env.POSTGRES_PASSWORD}
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   thymeleaf:
     cache: false
-      
+
 ---
 
 spring:
@@ -57,22 +58,3 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: production
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}
-    username: ${DATABASE_USER}
-    password: ${DATABASE_PASSWORD}
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-  thymeleaf:
-    cache: false

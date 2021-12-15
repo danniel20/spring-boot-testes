@@ -6,25 +6,21 @@ services:
       context: .
       dockerfile: Dockerfile
     command: java -jar /app.jar
+    depends_on:
+      - database
     ports:
-      - "8080:8080"
-    environment:
-      DATABASE_HOST: database
-      DATABASE_PORT: 5432
-      DATABASE_NAME: mydb
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: 123
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    env_file: .env
 
   database:
     image: postgres:9.6
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: ${POSTGRES_DB_NAME}
       POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - "5433:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
 
 volumes:
   db_data:
