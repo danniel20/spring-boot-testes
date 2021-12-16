@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "apiUsuarioController")
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
 
@@ -91,14 +91,14 @@ public class UsuarioController {
 
         try{
             Optional<Usuario> usuario = usuarioService.bucarPorId(id);
-    
+
             if(usuario.isEmpty()){
                 throw new Exception("Id do Usuário informado não existe!");
             }
 
             UsuarioResponse usuarioResponse = UsuarioResponse.builder().build();
             BeanUtils.copyProperties(usuario.get(), usuarioResponse);
-    
+
             return ResponseHandler.generateResponse(null, HttpStatus.OK, usuarioResponse);
         } catch(Exception e){
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
@@ -112,7 +112,7 @@ public class UsuarioController {
 
         try {
             List<Usuario> usuarios = usuarioService.buscarTodos();
-        
+
             List<UsuarioResponse> listUsuariosResponse = new ArrayList<UsuarioResponse>();
 
             usuarios.forEach(usuario -> {
@@ -134,17 +134,17 @@ public class UsuarioController {
 
         try {
             Optional<Usuario> usuario = usuarioService.bucarPorId(id);
-    
+
             if(usuario.isEmpty()){
                 throw new Exception("Id do Usuário informado não existe!");
             }
 
             usuarioService.deletarPorId(id);
             return ResponseHandler.generateResponse("Usuário removido com sucesso!", HttpStatus.NO_CONTENT, null);
-            
+
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, null);
         }
     }
-    
+
 }
