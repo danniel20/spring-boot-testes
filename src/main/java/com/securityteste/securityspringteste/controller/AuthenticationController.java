@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.controller.auth;
+package com.securityteste.securityspringteste.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

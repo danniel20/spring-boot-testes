@@ -31,6 +31,14 @@ spring:
     url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
     username: ${env.POSTGRES_USER}
     password: ${env.POSTGRES_PASSWORD}
+    tomcat:
+      initial-size: 3
+      max-idle: 10
+      min-idle: 5
+      time-between-eviction-runs-millis: 35000
+      validation-query: SELECT 1
+      test-on-borrow: true
+      remove-abandoned: true
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
