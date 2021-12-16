@@ -8,13 +8,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
+	@GetMapping("/")
+	public String root(){
+		return "redirect:/home";
+	}
+
     @GetMapping("/home")
     public ModelAndView index(){
         ModelAndView mv = new ModelAndView("home");
         mv.addObject("message", "Seja bem-vindo!");
         return mv;
     }
-    
+
     @GetMapping("/admin")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public String admin(){

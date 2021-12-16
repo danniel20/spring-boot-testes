@@ -43,7 +43,7 @@ public class Usuario extends Base implements UserDetails{
 
     @Column(nullable = false)
     private String nome;
-    
+
     @Column(nullable=false, unique=true)
     private String email;
 
@@ -51,9 +51,9 @@ public class Usuario extends Base implements UserDetails{
     @Column(nullable = false)
     private LocalDate dataNascimento;
 
-    @ManyToMany(fetch = FetchType.EAGER/*, cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}*/)
-	@JoinTable(name = "usuarios_papeis", 
-	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), 
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuarios_papeis",
+	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
 	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))
     @Builder.Default
     private Set<Papel> papeis = new HashSet<Papel>();
@@ -72,7 +72,7 @@ public class Usuario extends Base implements UserDetails{
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.papeis;
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
