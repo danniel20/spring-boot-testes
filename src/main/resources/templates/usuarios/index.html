@@ -9,8 +9,40 @@
 <body>
 
   <div layout:fragment="content">
+
+    <h3 class="text-center mt-4">Lista de Usuários</h3>
        
+    <div class="bg-light p-5 rounded mt-3">
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="text-center" scope="col">Nome</th>
+            <th class="text-center" scope="col">Login</th>
+            <th class="text-center" scope="col">Email</th>
+            <th class="text-center" scope="col">Data de Nascimento</th>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr th:each="_usuario : ${usuarios}">
+            <td class="text-center" th:text="${_usuario.nome}"></td>
+            <td class="text-center" th:text="${_usuario.login}"></td>
+            <td class="text-center" th:text="${_usuario.email}"></td>
+            <td class="text-center" th:text="${#temporals.format(_usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
+            <td>
+              <a href="#" class="btn btn-success btn-lg btn-circle"><i class="bi bi-pencil-square"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+
+
   </div>
-  
+ 
 </body>
 </html>

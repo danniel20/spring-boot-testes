@@ -3,7 +3,7 @@
 <body>
     <footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
       <div class="container d-flex justify-content-center">
-        <span class="text-muted">&copy; 2021 Spring Boot App</span>
+        <span class="text-muted">&copy; <strong th:text="${#temporals.format(dataAtual, 'yyyy')}"></strong> Spring Boot App</span>
       </div>
     </footer>
 </body>
