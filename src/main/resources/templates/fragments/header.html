@@ -13,9 +13,9 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="collapse navbar-collapse d-flex" id="navbarCollapse">
 
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ul class="navbar-nav mb-2 mb-md-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" th:href="@{/home}">Home</a>
           </li>
@@ -29,24 +29,26 @@
           </li>
         </ul>
 
-        <li class="nav-item dropdown d-flex">
+        <ul class="navbar-nav mb-2 mb-md-0 ms-auto">
+          <li class="nav-item dropdown">
           
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <span th:text="${#authentication.getPrincipal().getEmail()}"></span>
-          </a>
-
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <form th:action="@{/logout}" method="post" class="d-flex dropdown-item">
-                <button class="btn btn-link" type="submit">Logout</button>
-              </form>
-            </li>
-          </ul>
-
-        </li>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span th:text="${#authentication.getPrincipal().getEmail()}"></span>
+            </a>
+  
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form th:action="@{/logout}" method="post" class="d-flex dropdown-item">
+                  <button class="btn btn-link" type="submit">Logout</button>
+                </form>
+              </li>
+            </ul>
+  
+          </li>
+        </ul>
 
       </div>
     </div>
