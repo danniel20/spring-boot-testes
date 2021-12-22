@@ -12,7 +12,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,18 +39,23 @@ public class Usuario extends Base implements UserDetails{
 
     private static final long serialVersionUID = 1L;
 
+	@Size(min=3, message = "deve possuir ao menos 3 caracteres.")
     @Column(nullable = false, unique=true)
     private String login;
 
+	@Size(min=6, message = "deve possuir ao menos 6 caracteres.")
     @Column(nullable = false)
     private String senha;
 
+	@NotBlank
     @Column(nullable = false)
     private String nome;
 
+    @Email(message = "Informe um email válido.")
     @Column(nullable=false, unique=true)
     private String email;
 
+	@NotNull(message = "Informe uma data.")
     @Past
     @Column(nullable = false)
     private LocalDate dataNascimento;

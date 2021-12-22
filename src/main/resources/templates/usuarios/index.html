@@ -11,8 +11,15 @@
   <div layout:fragment="content">
 
     <h3 class="text-center mt-4">Lista de Usuários</h3>
+
+    <div th:if="${flash}" class="alert alert-success alert-dismissible fade show" role="alert">
+      Usuário '<strong><span th:text="${flash.nome}"></span></strong>' cadastrado com sucesso.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
        
     <div class="bg-light p-5 rounded mt-3">
+
+      <a th:href="@{/usuarios/new}" class="btn btn-primary btn-circle"><i class="bi bi-plus-circle"></i></a>
 
       <table class="table table-hover">
         <thead>

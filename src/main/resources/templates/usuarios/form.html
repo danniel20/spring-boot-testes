@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{layouts/layout}">
+<head>
+  <title>Novo Usuário</title>
+</head>
+<body>
+  <div layout:fragment="content">
+
+    <h3 class="text-center mt-4">Novo Usuário</h3>
+       
+    <div class="bg-light p-5 rounded mt-3">
+
+        <form th:action="@{/usuarios}" th:object="${usuario}" th:method="post">
+
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="nome" class="col-form-label col-form-label-sm">Nome</label>
+                    <input type="text" class="form-control form-control-sm" id="nome" th:field="*{nome}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback">
+                        <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="form-group col-sm-6">
+                    <label for="email" class="col-form-label col-form-label-sm">Email</label>
+                    <input type="text" class="form-control form-control-sm" id="email" th:field="*{email}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback">
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="form-group col-sm-4">
+                    <label for="dataNascimento" class="col-form-label col-form-label-sm">Data de Nascimento</label>
+                    <input type="text" class="form-control form-control-sm" id="dataNascimento" th:field="*{dataNascimento}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback">
+                        <span th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="form-group col-sm-4">
+                    <label for="login" class="col-form-label col-form-label-sm">Login</label>
+                    <input type="text" class="form-control form-control-sm" id="login" th:field="*{login}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback">
+                        <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="form-group col-sm-4">
+                    <label for="senha" class="col-form-label col-form-label-sm">Senha</label>
+                    <input type="password" class="form-control form-control-sm" id="senha" th:field="*{senha}" th:errorclass="is-invalid">
+                    <div class="invalid-feedback">
+                        <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+            </div>
+            
+          </form>
+
+    </div>
+
+
+  </div>
+</body>
+</html>
