@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,6 +62,9 @@ public class Usuario extends Base implements UserDetails{
     @Past
     @Column(nullable = false)
     private LocalDate dataNascimento;
+
+	@Transient
+	private MultipartFile file;
 
     @ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuarios_papeis",

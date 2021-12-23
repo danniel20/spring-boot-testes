@@ -6,6 +6,9 @@ server:
 spring:
   profiles:
     active: ${env.ACTIVE_PROFILE:development}
+  servlet:
+    multipart:
+      location: ./src/main/resources/uploads
 
 logging:
   level:

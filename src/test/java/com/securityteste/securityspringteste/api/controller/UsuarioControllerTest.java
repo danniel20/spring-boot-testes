@@ -66,9 +66,9 @@ public class UsuarioControllerTest {
 
     @BeforeEach
     public void setup(){
-        Usuario usuarioMock1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null);
-        Usuario usuarioMock2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null);
-        Usuario usuarioMock3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null);
+        Usuario usuarioMock1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null, null);
+        Usuario usuarioMock2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null, null);
+        Usuario usuarioMock3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null, null);
 
         usuarioMock1.setId(1L);
         usuarioMock2.setId(2L);
@@ -86,7 +86,7 @@ public class UsuarioControllerTest {
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
             .get("/api/usuarios")
             .contentType(MediaType.APPLICATION_JSON);
-        
+
         mockMvc.perform(mockRequest)
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data", notNullValue()))
@@ -108,7 +108,7 @@ public class UsuarioControllerTest {
             .andExpect(jsonPath("$.data", notNullValue()))
             .andExpect(jsonPath("$.data.nome", is("João das Neves")));
     }
-    
+
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
     public void deveRetornarStatus400AoObterUsuarioPorIdInvalido() throws Exception {
@@ -124,7 +124,7 @@ public class UsuarioControllerTest {
             .andExpect(jsonPath("$.data", nullValue()))
             .andExpect(jsonPath("$.message", is("Id do Usuário informado não existe!")));
     }
-    
+
     @Test
     @WithMockUser(roles = {"ADMIN", "USER"})
     public void deveRetornarStatus400AoObterUsuarioPorIdNull() throws Exception {
@@ -138,11 +138,11 @@ public class UsuarioControllerTest {
             .andExpect(jsonPath("$.data", nullValue()))
             .andExpect(jsonPath("$.message", is("Erro de conversão!")));
     }
-    
+
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarStatus201AoCriarUsuarioValido() throws Exception {
-        
+
         Papel roleUser = Papel.builder().nome("USER").build();
 
         Usuario saved = Usuario.builder()
@@ -152,12 +152,12 @@ public class UsuarioControllerTest {
             .email("alex@teste.com")
             .dataNascimento(LocalDate.parse("15/08/1991", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
             .build();
-        
+
         saved.getPapeis().add(roleUser);
         saved.setId(1L);
 
         UsuarioRequest usuarioRequest = new UsuarioRequest("alex", "123456", "Alex de Souza", "alex@teste.com", "15/08/1991", new String[]{"USER"});
-        
+
         Usuario novo = Usuario.builder()
             .login(usuarioRequest.getLogin())
             .senha(passwordEncoder.encode(usuarioRequest.getSenha()))
@@ -186,7 +186,7 @@ public class UsuarioControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarSatus204AoRemoverUsuarioPorIdValido() throws Exception {
-        
+
         Mockito.when(usuarioService.bucarPorId(this.usuariosList.get(0).getId())).thenReturn(java.util.Optional.of(this.usuariosList.get(0)));
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -197,11 +197,11 @@ public class UsuarioControllerTest {
             .andExpect(status().isNoContent())
             .andExpect(jsonPath("$.data", nullValue()));
     }
-    
+
     @Test
     @WithMockUser(roles = "ADMIN")
     public void deveRetornarSatus400AoRemoverUsuarioPorIdInValido() throws Exception {
-        
+
         Mockito.when(usuarioService.bucarPorId(-1L)).thenReturn(java.util.Optional.empty());
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
