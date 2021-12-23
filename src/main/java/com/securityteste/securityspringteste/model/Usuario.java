@@ -51,6 +51,7 @@ public class Usuario extends Base implements UserDetails{
     @Column(nullable = false)
     private String nome;
 
+	@NotBlank
     @Email(message = "Informe um email válido.")
     @Column(nullable=false, unique=true)
     private String email;
