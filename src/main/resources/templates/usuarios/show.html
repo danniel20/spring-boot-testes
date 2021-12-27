@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Usuarios</title>
-</head>
 <body>
 
     <div class="modal-dialog" th:fragment="modal-user-show">
+
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel" th:text="${usuario.nome}">Modal title</h5>
@@ -15,8 +13,18 @@
             <div class="modal-body">
                 
                 <p>
-                    <strong>Nome:</strong>
-                    <span th:text="${usuario.nome}"></span>
+                    <strong>Login:</strong>
+                    <span th:text="${usuario.login}"></span>
+                </p>
+                
+                <p>
+                    <strong>Email:</strong>
+                    <span th:text="${usuario.email}"></span>
+                </p>
+                
+                <p>
+                    <strong>Data de Nascimento:</strong>
+                    <span th:text="${#temporals.format(usuario.dataNascimento, 'dd/MM/yyyy')}"></span>
                 </p>
 
             </div>

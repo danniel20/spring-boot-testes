@@ -17,9 +17,10 @@
 
             <div class="row">
                 <div class="form-group col-sm-4">
-                    <label for="file" class="form-label">Foto</label>
-                    <input class="form-control form-control-sm" type="file" id="file" th:field="*{file}">
-                  </div>
+                    <label for="formFile" class="form-label">Foto</label> <br />
+                    <img src="" id="previewImage"/>
+                    <input class="form-control form-control-sm" type="file" id="formFile" th:field="*{file}">
+                </div>
             </div>
 
             <div class="row mt-3">
@@ -79,6 +80,27 @@
           </form>
 
     </div>
+
+    <script th:inline="javascript">
+        $(function(){
+
+            $("#formFile").on("change", function(event) {
+                let $previewImg = $("#previewImage");
+                let image = event.target.files[0];
+
+                let reader = new FileReader();
+
+                reader.onload = function(file) {
+                    console.log(file.target.result)
+                    $previewImg.attr("src", file.target.result);
+                    $previewImg.css("maxWidth", "160px");
+                    $previewImg.css("maxHeight", "160px");
+                }
+                reader.readAsDataURL(image);
+            });
+
+        });
+    </script>
 
 
   </div>
