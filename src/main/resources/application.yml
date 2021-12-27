@@ -49,6 +49,9 @@ spring:
       static-locations: ${project.base-dir}/src/main/resources/static/
       cache:
         period: 0
+  devtools:
+    restart:
+      additional-exclude: uploads/**
 
 ---
 

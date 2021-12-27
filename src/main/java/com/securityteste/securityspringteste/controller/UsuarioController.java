@@ -89,9 +89,11 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/{id}")
-	public String show(@PathVariable("id") String id){
-		System.out.println("teste");
-		return "usuarios/show :: modal-user";
+	public ModelAndView show(@PathVariable("id") Long id){
+		ModelAndView mv = new ModelAndView("usuarios/show :: modal-user-show");
+		Usuario usuario = usuarioService.bucarPorId(id).get();
+		mv.addObject("usuario", usuario);
+        return mv;
 	}
 
 	@ModelAttribute("dataAtual")

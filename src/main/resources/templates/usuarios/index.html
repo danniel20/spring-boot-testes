@@ -39,7 +39,7 @@
             <td class="text-center" th:text="${_usuario.email}"></td>
             <td class="text-center" th:text="${#temporals.format(_usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
             <td>
-              <button type="button" id="mybt" class="btn btn-success btn-sm btn-circle" data-id="${_usuario.id}" th:onclick="getUsuario(${_usuario.id})" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-search"></i></button>
+              <button type="button" class="btn btn-success btn-sm btn-circle btn-user" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
             </td>
           </tr>
         </tbody>
@@ -47,21 +47,22 @@
     </div>
     
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <!-- <div th:replace="usuarios/show :: modal-user"></div> -->
-      <div id="teste"></div>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     </div>
 
     <script th:inline="javascript">
       $(document).ready(function(){
-        $("#mybt").click(function(){
-          console.log("teste javascript");
+      
+        $(".btn-user").click(function(){
+          $("#myModal").load(`/usuarios/${$(this).data('user-id')}`)
+
+          setTimeout(function(){
+            new bootstrap.Modal($("#myModal")).show()
+          }, 300);
+
         });
+
       });
-      // function getUsuario(id){
-      //   let url = `/usuarios/${id}`;
-      //   $("#teste").load(url);
-      // }
     </script>
 
   </div>

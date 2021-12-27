@@ -9,6 +9,7 @@ import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.repository.PapelRepository;
 import com.securityteste.securityspringteste.repository.UsuarioRepository;
+import com.securityteste.securityspringteste.service.storage.StorageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,12 +31,18 @@ public class InitDataBase implements CommandLineRunner{
     @Autowired
     private PapelRepository papelRepository;
 
+	@Autowired
+	private StorageService storageService;
+
     @Override
     public void run(String... args) throws Exception {
 
 		if(this.environment.equals("development")){
 
 			if(this.usuarioRepository.findAll().isEmpty() && this.papelRepository.findAll().isEmpty()){
+
+				this.storageService.deleteAll();
+				this.storageService.init();
 
 				Papel roleUser = Papel.builder().nome("USER").build();
 				Papel roleAdmin = Papel.builder().nome("ADMIN").build();
