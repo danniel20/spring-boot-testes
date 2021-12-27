@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -62,6 +64,9 @@ public class Usuario extends Base implements UserDetails{
     @Past
     @Column(nullable = false)
     private LocalDate dataNascimento;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Foto foto;
 
 	@Transient
 	private MultipartFile file;

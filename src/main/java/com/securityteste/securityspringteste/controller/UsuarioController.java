@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.securityteste.securityspringteste.model.Foto;
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.service.papeis.PapelServiceImpl;
@@ -72,17 +73,18 @@ public class UsuarioController {
                 .email(usuario.getEmail())
                 .senha(passwordEncoder.encode(usuario.getSenha()))
                 .dataNascimento(usuario.getDataNascimento())
-				.file(usuario.getFile())
                 .build();
 
 		Papel papel = this.papelService.bucarPorNome("USER").get();
 		usuarioNovo.getPapeis().add(papel);
 
-		Usuario usuarioSalvo = this.usuarioService.salvar(usuarioNovo);
-
-		if(usuarioNovo.getFile() != null){
-			storageService.store(usuarioNovo.getFile());
+		if(usuario.getFile() != null && !usuario.getFile().isEmpty()){
+			String fileName = storageService.store(usuario.getFile());
+			Foto foto = Foto.builder().fileName(fileName).build();
+			usuarioNovo.setFoto(foto);
 		}
+
+		Usuario usuarioSalvo = this.usuarioService.salvar(usuarioNovo);
 
 		ra.addFlashAttribute("flash", usuarioSalvo);
 		return "redirect:/usuarios";

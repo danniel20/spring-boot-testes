@@ -114,7 +114,7 @@ public class SecurityConfig{
         public void configure(WebSecurity web) throws Exception {
             web
                 .ignoring()
-                    .antMatchers("/resources/**", "/webjars/**");
+                    .antMatchers("/resources/**", "/webjars/**", "/public/**");
         }
 
     }
