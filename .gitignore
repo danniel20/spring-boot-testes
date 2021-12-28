@@ -34,3 +34,6 @@ build/
 
 ### enviroment file ###
 .env
+
+### upload files ###
+src/main/resources/static/images/**

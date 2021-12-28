@@ -19,7 +19,7 @@
                 <div class="form-group col-sm-4">
                     <label for="formFile" class="form-label">Foto</label> <br />
                     <img src="" id="previewImage"/>
-                    <input class="form-control form-control-sm" type="file" id="formFile" th:field="*{file}">
+                    <input class="form-control form-control-sm" type="file" id="formFile" name="file" th:value="${file}" >
                 </div>
             </div>
 

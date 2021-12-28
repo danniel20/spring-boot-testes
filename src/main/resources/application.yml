@@ -8,7 +8,7 @@ spring:
     active: ${env.ACTIVE_PROFILE:development}
   servlet:
     multipart:
-      location: ./src/main/public/uploads
+      location: ./src/main/resources/static/uploads
 
 logging:
   level:

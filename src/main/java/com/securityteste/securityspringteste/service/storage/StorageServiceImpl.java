@@ -45,7 +45,7 @@ public class StorageServiceImpl implements StorageService{
 	@Override
 	public String store(MultipartFile file) {
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-		fileName = System.currentTimeMillis() + "-" +fileName.toLowerCase().replaceAll(" ", "-");
+		fileName = System.currentTimeMillis() + "-" + fileName.toLowerCase().replaceAll(" ", "-");
 
 		if(file.isEmpty()){
 			throw new StorageException("Falha ao armazenar arquivo vazio " + fileName);

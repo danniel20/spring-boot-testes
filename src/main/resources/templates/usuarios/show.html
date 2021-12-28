@@ -12,6 +12,10 @@
 
             <div class="modal-body">
                 
+                <p th:if="${usuario.foto != null}">
+                    <img th:src="@{'/images/' + ${usuario.foto.fileName}}" alt="" width="100px" height="100px">
+                </p>
+                
                 <p>
                     <strong>Login:</strong>
                     <span th:text="${usuario.login}"></span>

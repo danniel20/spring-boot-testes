@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -61,7 +63,7 @@ public class UsuarioController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public String create(@ModelAttribute @Valid Usuario usuario, BindingResult result, RedirectAttributes ra){
+	public String create(@ModelAttribute @Valid Usuario usuario, BindingResult result, @RequestParam(required = false) MultipartFile file, RedirectAttributes ra){
 
 		if(result.hasErrors()){
 			return "usuarios/form";
@@ -78,8 +80,8 @@ public class UsuarioController {
 		Papel papel = this.papelService.bucarPorNome("USER").get();
 		usuarioNovo.getPapeis().add(papel);
 
-		if(usuario.getFile() != null && !usuario.getFile().isEmpty()){
-			String fileName = storageService.store(usuario.getFile());
+		if(file != null && !file.isEmpty()){
+			String fileName = storageService.store(file);
 			Foto foto = Foto.builder().fileName(fileName).build();
 			usuarioNovo.setFoto(foto);
 		}
