@@ -97,8 +97,8 @@ public class InitDataBase implements CommandLineRunner{
 				usuario2.getPapeis().add(roleUser);
 				usuario2.getPapeis().add(roleAdmin);
 
-				// Path pathImageUsuario1 = Paths.get("./src/main/resources/public/images/robo-teste-1.png");
-				// Path pathImageUsuario2 = Paths.get("./src/main/resources/public/images/robo-teste-2.png");
+				// Path pathImageUsuario1 = Paths.get("./src/main/resources/static/images/robo-teste-1.png");
+				// Path pathImageUsuario2 = Paths.get("./src/main/resources/static/images/robo-teste-2.png");
 				Path pathImageUsuario1 = tempDir.resolve(imagem1 + ".png");
 				Path pathImageUsuario2 = tempDir.resolve(imagem2 + ".png");
 

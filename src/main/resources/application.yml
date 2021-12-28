@@ -46,7 +46,7 @@ spring:
     cache: false
   web:
     resources:
-      static-locations: ${project.base-dir}/src/main/resources/static/
+      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static/
       cache:
         period: 0
   devtools:
