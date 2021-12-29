@@ -13,7 +13,7 @@
             <div class="modal-body">
                 
                 <p th:if="${usuario.foto != null}">
-                    <img th:src="@{'uploads/' + ${usuario.foto.fileName}}" alt="" width="100px" height="100px" />
+                    <img th:src="@{'/uploads/' + ${usuario.foto.fileName}}" alt="" width="100px" height="100px" />
                 </p>
                 
                 <p>

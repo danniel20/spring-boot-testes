@@ -57,7 +57,7 @@ public class InitDataBase implements CommandLineRunner{
 				this.storageService.deleteAll();
 				this.storageService.init();
 
-				Path tempDir = Files.createTempDirectory(Paths.get("./src/main/resources/public/"), "tempDir");
+				Path tempDir = Files.createTempDirectory(Paths.get("./src/main/resources/static/public/"), "tempDir");
 
 				String imagem1 = "robo-teste-1";
 				String imagem2 = "robo-teste-2";

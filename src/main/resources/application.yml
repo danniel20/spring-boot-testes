@@ -46,7 +46,7 @@ spring:
     cache: false
   web:
     resources:
-      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static/
+      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static
       cache:
         period: 0
   devtools:
@@ -82,6 +82,11 @@ spring:
       ddl-auto: update
   thymeleaf:
     cache: true
+  web:
+    resources:
+      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static
+      cache:
+        period: 0
 
 ---
 

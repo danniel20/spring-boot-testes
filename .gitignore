@@ -35,5 +35,5 @@ build/
 ### enviroment file ###
 .env
 
-### upload files ###
-src/main/resources/static/uploads/**
+src/main/resources/static/uploads/*
+!src/main/resources/static/uploads
