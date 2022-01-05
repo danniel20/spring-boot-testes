@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class StorageServiceImpl implements StorageService{
 
-	@Value("${spring.servlet.multipart.location}")
+	@Value("${upload.path}")
 	private String uploadPath;
 
 	private Path rootLocation;

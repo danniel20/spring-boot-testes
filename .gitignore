@@ -35,8 +35,5 @@ build/
 ### enviroment file ###
 .env
 
-src/main/resources/static/public/*
-!src/main/resources/static/public/.gitkeep
-
-src/main/resources/static/uploads/*
-!src/main/resources/static/uploads/.gitkeep
+### upload folder ###
+uploads/

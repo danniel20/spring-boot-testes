@@ -8,7 +8,10 @@ spring:
     active: ${env.ACTIVE_PROFILE:development}
   servlet:
     multipart:
-      location: ./src/main/resources/static/uploads
+      enabled: true
+      max-file-size: 300KB
+      max-request-size: 300KB        
+      location: ${env.UPLOAD_PATH}
 
 logging:
   level:
@@ -22,6 +25,9 @@ logging:
 jwt:
   secret: ${env.API_TOKEN_SECRET}
   expiration: 30
+
+upload:
+  path: ${env.UPLOAD_PATH}
 
 ---
 
@@ -46,12 +52,12 @@ spring:
     cache: false
   web:
     resources:
-      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static
+      static-locations: file:${env.UPLOAD_PATH}
       cache:
         period: 0
   devtools:
     restart:
-      additional-exclude: uploads/**
+      additional-exclude: ./uploads/**
 
 ---
 
@@ -84,7 +90,7 @@ spring:
     cache: true
   web:
     resources:
-      static-locations: ${project.base-dir}/src/main/resources/static, classpath:/static
+      static-locations: file:${env.UPLOAD_PATH}
       cache:
         period: 0
 

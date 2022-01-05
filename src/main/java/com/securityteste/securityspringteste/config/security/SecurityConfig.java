@@ -25,6 +25,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -76,7 +79,7 @@ public class SecurityConfig{
         public void configure(WebSecurity web) throws Exception {
             web
                 .ignoring()
-                .antMatchers("/h2-console/**");
+                	.antMatchers("/h2-console/**");
         }
 
         @Bean
@@ -88,12 +91,13 @@ public class SecurityConfig{
 
     @Configuration
     @Order(2)
-    public static class FormLoginWebSecurityConfiguration extends WebSecurityConfigurerAdapter{
+    public static class FormLoginWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
                 .authorizeRequests()
+					.antMatchers("/resources/**", "/webjars/**", "/uploads/**").permitAll()
                     // .antMatchers("/home").permitAll()
                     //.antMatchers( "/public/**").permitAll()
                     .anyRequest().authenticated()
@@ -110,13 +114,20 @@ public class SecurityConfig{
                     .accessDeniedPage("/accessDenied");
         }
 
-        @Override
-        public void configure(WebSecurity web) throws Exception {
-            web
-                .ignoring()
-                    .antMatchers("/resources/**", "/webjars/**");
-        }
-
     }
+
+	@Configuration
+	@EnableWebMvc
+    @Order(3)
+    public static class ResourcesWebConfiguration implements WebMvcConfigurer {
+
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			registry
+				.addResourceHandler("/resources/**", "/webjars/**", "/uploads/**")
+				.addResourceLocations("/resources/", "/webjars/", "file:./uploads/");
+		}
+
+	}
 
 }
