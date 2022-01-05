@@ -34,7 +34,7 @@ upload:
 spring:
   config:
     activate:
-      on-profile: ${env.ACTIVE_PROFILE:development}
+      on-profile: development
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
@@ -64,7 +64,7 @@ spring:
 spring:
   config:
     activate:
-      on-profile: ${env.ACTIVE_PROFILE:production}
+      on-profile: production
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
