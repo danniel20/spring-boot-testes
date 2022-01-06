@@ -12,6 +12,10 @@ spring:
       max-file-size: 300KB
       max-request-size: 300KB        
       location: ${env.UPLOAD_PATH}
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 logging:
   level:

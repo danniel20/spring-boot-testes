@@ -30,8 +30,4 @@ public class HomeController {
         return "admin";
     }
 
-	@ModelAttribute("dataAtual")
-	public LocalDate dataAtual(){
-		return LocalDate.now();
-	}
 }

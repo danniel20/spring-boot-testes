@@ -39,7 +39,12 @@
             <td class="text-center" th:text="${_usuario.email}"></td>
             <td class="text-center" th:text="${#temporals.format(_usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
             <td>
-              <button type="button" class="btn btn-success btn-sm btn-circle btn-user" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
+              <button type="button" class="btn btn-success btn-sm btn-circle btn-user-show" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
+              
+              <form th:action="@{/usuarios/{id}(id=${_usuario.id})}" th:method="delete">
+                <button type="submit" class="btn btn-danger btn-sm btn-circle btn-user-delete" th:data-user-id="${_usuario.id}"><i class="bi bi-trash"></i></button>
+              </form>
+
             </td>
           </tr>
         </tbody>
@@ -52,9 +57,27 @@
     <script th:inline="javascript">
       $(document).ready(function(){
       
-        $(".btn-user").click(function(){
+        $(".btn-user-show").click(function(){
           $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
         });
+
+        // $(".btn-user-delete").click(function(event){
+        //   event.preventDefault();
+          
+        //   $.ajax({
+        //     url: `/usuarios/${$(this).data('user-id')}`,
+        //     type: 'post',
+        //     beforeSend : function(){
+        //       console.log("Enviando...");
+        //     }
+        //   })
+        //   .done(function(msg){
+        //     console.log(msg);
+        //   })
+        //   .fail(function(jqXHR, textStatus, msg){
+        //     alert(msg);
+        //   });
+        // });
 
       });
     </script>
