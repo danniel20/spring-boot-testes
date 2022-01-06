@@ -55,7 +55,7 @@ public class UsuarioController {
 
 	@GetMapping("/new")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ModelAndView form(){
+	public ModelAndView newForm(){
 		ModelAndView mv = new ModelAndView("usuarios/form");
 		mv.addObject("usuario", new Usuario());
         return mv;
@@ -94,7 +94,7 @@ public class UsuarioController {
 
 	@GetMapping("/{id}")
 	public ModelAndView show(@PathVariable("id") Long id){
-		ModelAndView mv = new ModelAndView("usuarios/show :: modal-user-show");
+		ModelAndView mv = new ModelAndView("usuarios/fragments/usuario :: modal-user-show");
 		Usuario usuario = usuarioService.bucarPorId(id).get();
 		mv.addObject("usuario", usuario);
         return mv;
