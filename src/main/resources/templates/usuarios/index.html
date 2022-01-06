@@ -45,21 +45,15 @@
         </tbody>
       </table>
     </div>
-    
+
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    </div>
+    <div id="modal-user-show"></div>
 
     <script th:inline="javascript">
       $(document).ready(function(){
       
         $(".btn-user").click(function(){
-          $("#myModal").load(`/usuarios/${$(this).data('user-id')}`)
-
-          setTimeout(function(){
-            new bootstrap.Modal($("#myModal")).show()
-          }, 300);
-
+          $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
         });
 
       });
