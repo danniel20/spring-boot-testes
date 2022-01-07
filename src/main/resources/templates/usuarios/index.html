@@ -61,23 +61,23 @@
           $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
         });
 
-        // $(".btn-user-delete").click(function(event){
-        //   event.preventDefault();
+        $(".btn-user-delete").click(function(event){
+          event.preventDefault();
           
-        //   $.ajax({
-        //     url: `/usuarios/${$(this).data('user-id')}`,
-        //     type: 'post',
-        //     beforeSend : function(){
-        //       console.log("Enviando...");
-        //     }
-        //   })
-        //   .done(function(msg){
-        //     console.log(msg);
-        //   })
-        //   .fail(function(jqXHR, textStatus, msg){
-        //     alert(msg);
-        //   });
-        // });
+          $.ajax({
+            url: `/usuarios/${$(this).data('user-id')}`,
+            type: 'DELETE',
+            beforeSend : function(xhr){
+              xhr.setRequestHeader('[(${_csrf.headerName})]', '[(${_csrf.token})]');
+            }
+          })
+          .done(function(msg){
+            location.reload(true)
+          })
+          .fail(function(jqXHR, textStatus, msg){
+            alert(msg);
+          });
+        });
 
       });
     </script>

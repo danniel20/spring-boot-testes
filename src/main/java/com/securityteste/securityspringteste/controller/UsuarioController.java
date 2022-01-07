@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -102,15 +101,12 @@ public class UsuarioController {
         return mv;
 	}
 
-	@PostMapping("/{id}")
-	//@DeleteMapping("/{id}")
-	//@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-	//@PreAuthorize("hasAnyRole('ADMIN')")
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public String delete(@PathVariable("id") Long id){
-		System.out.println("TESTE...");
 		usuarioService.deletarPorId(id);
-		// return "usuario deletado";
-		return "redirect:/usuarios";
+		return "/usuarios/index";
 	}
 
 }

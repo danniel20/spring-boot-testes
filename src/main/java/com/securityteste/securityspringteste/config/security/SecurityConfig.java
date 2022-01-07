@@ -25,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -126,6 +127,11 @@ public class SecurityConfig{
 			registry
 				.addResourceHandler("/resources/**", "/webjars/**", "/uploads/**")
 				.addResourceLocations("/resources/", "/webjars/", "file:./uploads/");
+		}
+
+		@Override
+		public void addCorsMappings(CorsRegistry registry) {
+			registry.addMapping("/**");
 		}
 
 	}

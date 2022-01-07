@@ -21,9 +21,10 @@ logging:
   level:
     org:
       springframework:
+        security: DEBUG
         web:
           servlet:
-            DispatcherServlet: debug
+            DispatcherServlet: DEBUG
       hibernate: error
 
 jwt:
