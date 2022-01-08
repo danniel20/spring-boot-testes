@@ -38,7 +38,7 @@
             <td class="text-center" th:text="${_usuario.login}"></td>
             <td class="text-center" th:text="${_usuario.email}"></td>
             <td class="text-center" th:text="${#temporals.format(_usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
-            <td>
+            <td class="d-flex">
               <button type="button" class="btn btn-success btn-sm btn-circle btn-user-show" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
               
               <form th:action="@{/usuarios/{id}(id=${_usuario.id})}" th:method="delete">
@@ -61,23 +61,47 @@
           $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
         });
 
-        $(".btn-user-delete").click(function(event){
+        $(".btn-user-delete").click(confirmDelete);
+
+        function confirmDelete(event){
           event.preventDefault();
-          
-          $.ajax({
-            url: `/usuarios/${$(this).data('user-id')}`,
-            type: 'DELETE',
-            beforeSend : function(xhr){
-              xhr.setRequestHeader('[(${_csrf.headerName})]', '[(${_csrf.token})]');
+  
+          const opts = {
+            title: "Confirmação",
+            message: "Deseja realmente exlcuir o usuário?",
+            buttons: {
+                confirm: {
+                    label: 'Sim',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'Não',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function(result) {
+              if (result) {
+
+                $.ajax({
+                  url: `/usuarios/${$(".btn-user-delete").data('user-id')}`,
+                  type: 'DELETE',
+                  beforeSend : function(xhr){
+                    xhr.setRequestHeader('[(${_csrf.headerName})]', '[(${_csrf.token})]');
+                  }
+                })
+                .done(function(msg){
+                  location.reload(true)
+                })
+                .fail(function(jqXHR, textStatus, msg){
+                  alert(msg);
+                });
+
+              }
             }
-          })
-          .done(function(msg){
-            location.reload(true)
-          })
-          .fail(function(jqXHR, textStatus, msg){
-            alert(msg);
-          });
-        });
+          };
+    
+          bootbox.confirm(opts);
+        }
 
       });
     </script>

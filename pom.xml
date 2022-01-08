@@ -114,6 +114,13 @@
 			<version>3.6.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootbox -->
+		<dependency>
+				<groupId>org.webjars</groupId>
+				<artifactId>bootbox</artifactId>
+				<version>5.5.2</version>
+		</dependency>
+
 		<!-- Environment File -->
 		<dependency>
 			<groupId>me.paulschwarz</groupId>
