@@ -57,7 +57,6 @@ spring:
     cache: false
   web:
     resources:
-      static-locations: file:${env.UPLOAD_PATH}
       cache:
         period: 0
   devtools:
@@ -95,7 +94,6 @@ spring:
     cache: true
   web:
     resources:
-      static-locations: file:${env.UPLOAD_PATH}
       cache:
         period: 0
 

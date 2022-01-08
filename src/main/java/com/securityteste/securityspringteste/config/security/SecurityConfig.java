@@ -100,7 +100,7 @@ public class SecurityConfig{
                 .authorizeRequests()
 					.antMatchers("/resources/**", "/webjars/**", "/uploads/**").permitAll()
                     // .antMatchers("/home").permitAll()
-                    //.antMatchers( "/public/**").permitAll()
+                    // .antMatchers( "/public/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -122,11 +122,22 @@ public class SecurityConfig{
     @Order(3)
     public static class ResourcesWebConfiguration implements WebMvcConfigurer {
 
+		private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
+
 		@Override
 		public void addResourceHandlers(ResourceHandlerRegistry registry) {
 			registry
-				.addResourceHandler("/resources/**", "/webjars/**", "/uploads/**")
-				.addResourceLocations("/resources/", "/webjars/", "file:./uploads/");
+				.addResourceHandler("/**")
+            	.addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+
+			registry
+				.addResourceHandler("/webjars/**")
+				.addResourceLocations("/webjars/");
+
+			registry
+				.addResourceHandler("/uploads/**")
+				.addResourceLocations("file:./uploads/");
 		}
 
 		@Override
