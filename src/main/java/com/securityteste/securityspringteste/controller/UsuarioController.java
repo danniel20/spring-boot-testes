@@ -88,7 +88,7 @@ public class UsuarioController {
 
 		Usuario usuarioSalvo = this.usuarioService.salvar(usuarioNovo);
 
-		ra.addFlashAttribute("flash", usuarioSalvo);
+		ra.addFlashAttribute("notice", "Usuário " + usuarioSalvo.getNome() + " cadastrado com sucesso!");
 		return "redirect:/usuarios";
 	}
 

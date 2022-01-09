@@ -2,6 +2,8 @@ server:
   port: ${env.SERVER_PORT}
   error:
     include-message: always
+  tomcat:
+    max-swallow-size: -1
 
 spring:
   profiles:
@@ -9,8 +11,8 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 300KB
-      max-request-size: 300KB        
+      max-file-size: 500KB
+      max-request-size: 500KB        
       location: ${env.UPLOAD_PATH}
   mvc:
     hiddenmethod:

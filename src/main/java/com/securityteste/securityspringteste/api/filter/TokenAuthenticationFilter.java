@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.securityteste.securityspringteste.service.auth.TokenService;
+import com.securityteste.securityspringteste.api.service.TokenService;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +34,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
         this.tokenService = tokenService;
         this.usuarioServiceImpl = usuarioServiceImpl;
     }
-    
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -47,7 +47,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
 
             try {
                 userNameToken = tokenService.getTokenSubject(token);
-            } catch (ExpiredJwtException ex) {                
+            } catch (ExpiredJwtException ex) {
                 generateErrorResponse("Token expirado!", request, response);
                 return;
             }
@@ -62,19 +62,19 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
         }
 
         if(userNameToken != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            
+
             UserDetails usuario = usuarioServiceImpl.buscarPorLogin(userNameToken).get();
 
             if(usuario != null && this.tokenService.isTokenValid(token)){
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = 
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
 
-        filterChain.doFilter(request, response);        
+        filterChain.doFilter(request, response);
     }
 
     private void generateErrorResponse(String errorMessage, HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -87,7 +87,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter{
         sb.append("} ");
 
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write(sb.toString());
     }
 }

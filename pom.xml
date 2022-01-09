@@ -121,6 +121,13 @@
 				<version>5.5.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/notify.js -->
+		<dependency>
+				<groupId>org.webjars.bower</groupId>
+				<artifactId>notify.js</artifactId>
+				<version>1.2.8</version>
+		</dependency>
+
 		<!-- Environment File -->
 		<dependency>
 			<groupId>me.paulschwarz</groupId>

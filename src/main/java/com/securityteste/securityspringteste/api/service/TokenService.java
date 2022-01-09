@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.service.auth;
+package com.securityteste.securityspringteste.api.service;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
 public class TokenService {
-    
+
     @Value("${jwt.expiration}")
     private Long expiration;
 
@@ -36,7 +36,7 @@ public class TokenService {
                         .setExpiration(generateExpirationDate())
                         .signWith(SignatureAlgorithm.HS256, this.secret)
                         .compact();
-        
+
     }
 
     private Claims getClaims(String token) {

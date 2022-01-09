@@ -12,8 +12,8 @@
 
     <h3 class="text-center mt-4">Lista de Usuários</h3>
 
-    <div th:if="${flash}" class="alert alert-success alert-dismissible fade show" role="alert">
-      Usuário '<strong><span th:text="${flash.nome}"></span></strong>' cadastrado com sucesso.
+    <div th:if="${notice}" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong><span th:text="${notice}"></span></strong>
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
        
@@ -102,6 +102,8 @@
     
           bootbox.confirm(opts);
         }
+
+        //$.notify("Access granted", "success");        
 
       });
     </script>

@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             throw new UsernameNotFoundException("Usuário não encontrado!");
         }
 
-        return usuario.get();        
+        return usuario.get();
     }
-    
+
 }

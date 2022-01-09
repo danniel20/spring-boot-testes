@@ -1,7 +1,7 @@
 package com.securityteste.securityspringteste.config.security;
 
 import com.securityteste.securityspringteste.api.filter.TokenAuthenticationFilter;
-import com.securityteste.securityspringteste.service.auth.TokenService;
+import com.securityteste.securityspringteste.api.service.TokenService;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,12 +107,12 @@ public class SecurityConfig{
                     .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/home", true)
                 .and()
-                .logout().permitAll()
+                .logout().permitAll();
                     // .deleteCookies("JSESSIONID")
                     // .invalidateHttpSession(true)
-                .and()
-                .exceptionHandling()
-                    .accessDeniedPage("/accessDenied");
+                // .and()
+                // .exceptionHandling()
+                //     .accessDeniedPage("/accessDenied");
         }
 
     }
