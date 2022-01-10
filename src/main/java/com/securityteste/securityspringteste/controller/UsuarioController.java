@@ -86,9 +86,9 @@ public class UsuarioController {
 			usuarioNovo.setFoto(foto);
 		}
 
-		Usuario usuarioSalvo = this.usuarioService.salvar(usuarioNovo);
+		this.usuarioService.salvar(usuarioNovo);
 
-		ra.addFlashAttribute("notice", "Usuário " + usuarioSalvo.getNome() + " cadastrado com sucesso!");
+		ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
 		return "redirect:/usuarios";
 	}
 
@@ -100,11 +100,11 @@ public class UsuarioController {
         return mv;
 	}
 
-
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public String delete(@PathVariable("id") Long id){
+	public String delete(@PathVariable("id") Long id, RedirectAttributes ra){
 		usuarioService.deletarPorId(id);
+		ra.addFlashAttribute("notice", "Usuário removido com sucesso!");
 		return "/usuarios/index";
 	}
 

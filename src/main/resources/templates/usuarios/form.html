@@ -12,12 +12,7 @@
     <h3 class="text-center mt-4">Novo Usuário</h3>
        
     <div class="bg-light p-5 rounded mt-3">
-
-        <div th:if="${alert}" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong><span th:text="${alert}"></span></strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
+        
         <form th:action="@{/usuarios}" th:object="${usuario}" th:method="post" enctype="multipart/form-data">
 
             <div class="row">
