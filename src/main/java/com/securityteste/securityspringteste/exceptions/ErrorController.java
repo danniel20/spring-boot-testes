@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -20,7 +22,21 @@ public class ErrorController {
 
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public String handleMaxSizeException(MaxUploadSizeExceededException exc, HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
-		ra.addFlashAttribute("alert", "Arquivo excedeu o limite total permitido!");
+		ra.addFlashAttribute("alert", "Arquivo excedeu o limite total permitido para upload!");
+		return "redirect:/usuarios/new";
+		// return "redirect:"+ request.getHeader("referer");
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public String handleAccessDeniedException(AccessDeniedException exc, HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+		ra.addFlashAttribute("alert", "Você não possui permissão de acesso!");
+		return "redirect:/home";
+	}
+
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public String handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exc, HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
+		logger.error("Exception during execution request", exc);
+		ra.addFlashAttribute("alert", "Erro ao realizar requisição!");
 		return "redirect:"+ request.getHeader("referer");
 	}
 

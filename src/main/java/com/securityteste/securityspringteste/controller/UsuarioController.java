@@ -105,7 +105,7 @@ public class UsuarioController {
 	public String delete(@PathVariable("id") Long id, RedirectAttributes ra){
 		usuarioService.deletarPorId(id);
 		ra.addFlashAttribute("notice", "Usuário removido com sucesso!");
-		return "/usuarios/index";
+		return "redirect:/usuarios/index";
 	}
 
 }
