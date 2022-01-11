@@ -27,7 +27,7 @@
           </tr>
         </thead>
 
-        <tbody>
+        <tbody th:fragment="datatable-users" id="datatable-show-users">
           <tr th:each="_usuario : ${usuarios}">
             <td class="text-center" th:text="${_usuario.nome}"></td>
             <td class="text-center" th:text="${_usuario.login}"></td>
@@ -51,12 +51,13 @@
 
     <script th:inline="javascript">
       $(document).ready(function(){
-      
-        $(".btn-user-show").click(function(){
-          $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
-        });
 
+        $(".btn-user-show").click(showUserModal);
         $(".btn-user-delete").click(confirmDelete);
+
+        function showUserModal(){
+          $("#modal-user-show").load(`/usuarios/${$(this).data('user-id')}`)
+        }
 
         function confirmDelete(event){
           event.preventDefault();
@@ -84,11 +85,23 @@
                     xhr.setRequestHeader('[(${_csrf.headerName})]', '[(${_csrf.token})]');
                   }
                 })
-                .done(function(msg){
-                  location.reload(true);
+                .done(function(html){
+                  $("#datatable-show-users").replaceWith(html);
+
+                  $.notify("Usuário removido com sucesso!", {
+                    className: "success",
+                    position: "top center"
+                  });
                 })
                 .fail(function(jqXHR, textStatus, msg){
-                  alert(msg);
+                  $.notify(msg, {
+                    className: "error",
+                    position: "top center"
+                  });
+                })
+                .always(function(){
+                  $(".btn-user-show").click(showUserModal);
+                  $(".btn-user-delete").click(confirmDelete);
                 });
 
               }

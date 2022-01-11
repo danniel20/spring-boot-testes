@@ -1,8 +1,11 @@
 package com.securityteste.securityspringteste.config.database;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -63,8 +66,8 @@ public class InitDataBase implements CommandLineRunner{
 						try {
 							Resource resource = new UrlResource("https://robohash.org/" + item);
 							Files.copy(resource.getInputStream(), tempDir.resolve(item + ".png"), StandardCopyOption.REPLACE_EXISTING);
-						} catch (IOException e) {
-							e.printStackTrace();
+						} catch (Exception e) {
+							System.out.println("Não foi possível baixar/ou gravar a imagem da url especificada: " + e.getMessage());
 						}
 					});
 
@@ -97,16 +100,20 @@ public class InitDataBase implements CommandLineRunner{
 					Path pathImageUsuario1 = tempDir.resolve(imagem1 + ".png");
 					Path pathImageUsuario2 = tempDir.resolve(imagem2 + ".png");
 
-					String fileName1 = this.storageService.store(FileUtil.fileToMultipartFile(pathImageUsuario1.toFile()));
-					String fileName2 = this.storageService.store(FileUtil.fileToMultipartFile(pathImageUsuario2.toFile()));
+					try{
+						String fileName1 = this.storageService.store(FileUtil.fileToMultipartFile(pathImageUsuario1.toFile()));
+						String fileName2 = this.storageService.store(FileUtil.fileToMultipartFile(pathImageUsuario2.toFile()));
 
-					usuario1.setFoto(Foto.builder().fileName(fileName1).build());
-					usuario2.setFoto(Foto.builder().fileName(fileName2).build());
+						usuario1.setFoto(Foto.builder().fileName(fileName1).build());
+						usuario2.setFoto(Foto.builder().fileName(fileName2).build());
+					}
+					catch(Exception e){
+						System.out.println("Não foi possível salvar a image do usuário: " + e.getMessage());
+					}
 
 					this.usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2));
 
 					FileSystemUtils.deleteRecursively(tempDir);
-
 				}
 
 			}

@@ -109,7 +109,7 @@ public class SecurityConfig{
                 .and()
                 .logout().permitAll();
                     // .deleteCookies("JSESSIONID")
-                    // .invalidateHttpSession(true)
+                    // .invalidateHttpSession(true);
                 // .and()
                 // .exceptionHandling()
                 //     .accessDeniedPage("/accessDenied");

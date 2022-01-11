@@ -102,10 +102,12 @@ public class UsuarioController {
 
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public String delete(@PathVariable("id") Long id, RedirectAttributes ra){
+	public ModelAndView delete(@PathVariable("id") Long id){
 		usuarioService.deletarPorId(id);
-		ra.addFlashAttribute("notice", "Usuário removido com sucesso!");
-		return "redirect:/usuarios/index";
+
+		ModelAndView mv = new ModelAndView("usuarios/index :: datatable-users");
+		mv.getModel().put("usuarios", this.usuarioService.buscarTodos());
+		return mv;
 	}
 
 }

@@ -11,10 +11,9 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/1.7.2/font/bootstrap-icons.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/jquery-toast-plugin/1.3.2/dist/jquery.toast.min.css}" />
     
     <script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
-    <script th:src="@{/webjars/jquery-toast-plugin/1.3.2/dist/jquery.toast.min.js}"></script>
+    <script th:src="@{/webjars/notifyjs/0.4.2/notify.js}"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -30,24 +29,18 @@
 
     <div th:if="${notice}">
         <script th:inline="javascript">
-            $.toast({
-                text: '[(${notice})]',
-                position: 'top-center',
-                icon: 'success',
-                loader: false,
-                hideAfter: 10000
+            $.notify('[(${notice})]', {
+                className: "success",
+                position: "top center"
             });
         </script>
     </div>
     
     <div th:if="${alert}">
         <script th:inline="javascript">
-            $.toast({
-                text: '[(${alert})]',
-                position: 'top-center',
-                icon: 'error',
-                loader: false,
-                hideAfter: 10000
+            $.notify('[(${alert})]', {
+                className: "error",
+                position: "top center"
             });
         </script>
     </div>
