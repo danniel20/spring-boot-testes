@@ -107,9 +107,9 @@ public class SecurityConfig{
                     .loginPage("/login").permitAll()
                     .defaultSuccessUrl("/home", true)
                 .and()
-                .logout().permitAll();
+                .logout().permitAll()
+					.invalidateHttpSession(true);
                     // .deleteCookies("JSESSIONID")
-                    // .invalidateHttpSession(true);
                 // .and()
                 // .exceptionHandling()
                 //     .accessDeniedPage("/accessDenied");
