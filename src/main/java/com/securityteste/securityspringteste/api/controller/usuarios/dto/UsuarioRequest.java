@@ -7,11 +7,13 @@ import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UsuarioRequest{
-    
+
     @NotBlank
     @Size(min=3, message = "deve possuir ao menos 3 caracteres.")
     private String login;
@@ -30,6 +32,6 @@ public class UsuarioRequest{
     @NotBlank
     @Pattern(regexp = "(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[012])/((?:19|20)[0-9][0-9])", message = "Informe uma data válida!. Ex: dd/MM/yyyy")
     private String dataNascimento;
-    
+
     private String[] papeis;
 }
