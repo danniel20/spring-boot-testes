@@ -1,6 +1,9 @@
 package com.securityteste.securityspringteste.api.service;
 
+import java.util.Base64;
 import java.util.Date;
+
+import javax.annotation.PostConstruct;
 
 import com.securityteste.securityspringteste.model.Usuario;
 
@@ -15,53 +18,58 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class TokenService {
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
+	@Value("${jwt.expiration}")
+	private Long expiration;
 
-    @Value("${jwt.secret}")
-    private String secret;
+	@Value("${jwt.secret}")
+	private String secret;
 
-    private Date generateExpirationDate(){
-        return new Date(System.currentTimeMillis() + this.expiration * 60000);
-    }
+	@PostConstruct
+	protected void init() {
+		this.secret = Base64.getEncoder().encodeToString(this.secret.getBytes());
+	}
 
-    public String generateToken(Authentication authentication){
+	private Date generateExpirationDate() {
+		return new Date(System.currentTimeMillis() + this.expiration * 60000);
+	}
 
-        Usuario usuario = (Usuario) authentication.getPrincipal();
+	public String generateToken(Authentication authentication) {
 
-        return Jwts.builder()
-                        .setIssuer("AplicacaoJWT")
-                        .setSubject(usuario.getLogin())
-                        .setIssuedAt(new Date())
-                        .setExpiration(generateExpirationDate())
-                        .signWith(SignatureAlgorithm.HS256, this.secret)
-                        .compact();
+		Usuario usuario = (Usuario) authentication.getPrincipal();
 
-    }
+		return Jwts.builder()
+				.setIssuer("AplicacaoJWT")
+				.setSubject(usuario.getLogin())
+				.setIssuedAt(new Date())
+				.setExpiration(generateExpirationDate())
+				.signWith(SignatureAlgorithm.HS256, this.secret)
+				.compact();
 
-    private Claims getClaims(String token) {
-        return Jwts.parser()
-            .setSigningKey(this.secret)
-            .parseClaimsJws(token)
-            .getBody();
-    }
+	}
 
-    public String getTokenSubject(String token){
-        Claims claims = getClaims(token);
-        return claims.getSubject();
-    }
+	private Claims getClaims(String token) {
+		return Jwts.parser()
+				.setSigningKey(this.secret)
+				.parseClaimsJws(token)
+				.getBody();
+	}
 
-    public Date getExpirationDate(String token){
-        Claims claims = getClaims(token);
-        return claims.getExpiration();
-    }
+	public String getTokenSubject(String token) {
+		Claims claims = getClaims(token);
+		return claims.getSubject();
+	}
 
-    private boolean isTokenExpired(String token){
-        final Date dataExpiracao = getExpirationDate(token);
-        return dataExpiracao.before(new Date());
-    }
+	public Date getExpirationDate(String token) {
+		Claims claims = getClaims(token);
+		return claims.getExpiration();
+	}
 
-    public boolean isTokenValid(String token){
-        return !isTokenExpired(token);
-    }
+	private boolean isTokenExpired(String token) {
+		final Date dataExpiracao = getExpirationDate(token);
+		return dataExpiracao.before(new Date());
+	}
+
+	public boolean isTokenValid(String token) {
+		return !isTokenExpired(token);
+	}
 }
