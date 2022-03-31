@@ -44,7 +44,7 @@ spring:
       on-profile: development
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
+    url: jdbc:postgresql://${env.POSTGRES_HOST}:5432/${env.POSTGRES_DB_NAME}
     username: ${env.POSTGRES_USER}
     password: ${env.POSTGRES_PASSWORD}
   jpa:
@@ -73,7 +73,7 @@ spring:
       on-profile: production
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB_NAME}
+    url: jdbc:postgresql://${env.POSTGRES_HOST}:5432/${env.POSTGRES_DB_NAME}
     username: ${env.POSTGRES_USER}
     password: ${env.POSTGRES_PASSWORD}
     tomcat:
