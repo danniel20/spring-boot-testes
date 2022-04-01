@@ -25,6 +25,7 @@ jobs:
           touch .env
           echo SERVER_PORT=8080 >> .env
           echo API_TOKEN_SECRET=my_token_secret >> .env
+          echo UPLOAD_PATH=./uploads >> .env
           cat .env
 
       - name: Build with Maven
