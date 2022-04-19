@@ -16,68 +16,70 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 //import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest(properties = {
-    "logging.level.ROOT=WARN",
-    "logging.level.org.springframework.test.context.transaction=INFO",
-    "logging.level.org.hibernate.SQL=DEBUG"
+		"logging.level.ROOT=WARN",
+		"logging.level.org.springframework.test.context.transaction=INFO",
+		"logging.level.org.hibernate.SQL=DEBUG"
 })
 @ActiveProfiles("test")
 public class UsuarioRepositoryTest {
 
-    // @Autowired
-    // private TestEntityManager entityManager;
+	// @Autowired
+	// private TestEntityManager entityManager;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
-    @Autowired
-    private PapelRepository papelRepository;
+	@Autowired
+	private PapelRepository papelRepository;
 
-    private Usuario usuario;
+	private Usuario usuario;
 
-    @BeforeEach
-    public void setup(){
-        Papel roleUser = Papel.builder().nome("USER").build();
+	@BeforeEach
+	public void setup() {
+		Papel roleUser = Papel.builder().nome("USER").build();
 
-        Papel papelUser = this.papelRepository.saveAndFlush(roleUser);
+		Papel papelUser = this.papelRepository.saveAndFlush(roleUser);
 
-        this.usuario = Usuario.builder()
-                                    .login("fulano")
-                                    .senha("123456")
-                                    .email("fulano@teste.com")
-                                    .nome("Fulano da Silva")
-                                    .dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
-                                    .build();
+		this.usuario = Usuario.builder()
+				.login("fulano")
+				.senha("123456")
+				.email("fulano@teste.com")
+				.nome("Fulano da Silva")
+				.dataNascimento(LocalDate.parse("19/08/1987", DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+				.build();
 
-        this.usuario.getPapeis().add(papelUser);
+		this.usuario.getPapeis().add(papelUser);
 
-        this.usuario = this.usuarioRepository.saveAndFlush(this.usuario);  
-    }
+		this.usuario = this.usuarioRepository.saveAndFlush(this.usuario);
+	}
 
-    @Test
-    public void deveRetornarUsuarioAoBuscarPorLoginValido(){
-        Optional<Usuario> encontrado = this.usuarioRepository.findByLogin(this.usuario.getLogin());
+	@Test
+	public void deveRetornarUsuarioAoBuscarPorLoginValido() {
+		Optional<Usuario> encontrado = this.usuarioRepository.findByLogin(this.usuario.getLogin());
 
-        assertThat(encontrado.get().getId()).isNotNull();
-        assertThat(encontrado.get().getLogin()).isEqualTo(this.usuario.getLogin());
-    }
-    
-    @Test
-    public void deveRetornarTrueAoRemoverUsuarioExistente(){
-        this.usuarioRepository.delete(this.usuario);
+		assertNotNull(encontrado.get().getId());
+		assertEquals(encontrado.get().getLogin(), this.usuario.getLogin());
+	}
 
-        Optional<Usuario> encontrado = this.usuarioRepository.findById(this.usuario.getId());
+	@Test
+	public void deveRetornarTrueAoRemoverUsuarioExistente() {
+		this.usuarioRepository.delete(this.usuario);
 
-        assertThat(encontrado.isEmpty()).isTrue();
-    }
+		Optional<Usuario> encontrado = this.usuarioRepository.findById(this.usuario.getId());
 
-    @AfterEach
-    public void teardown(){
-        this.usuario = null;
-        this.usuarioRepository.deleteAll();
-        this.papelRepository.deleteAll();
-    }
-    
+		assertTrue(encontrado.isEmpty());
+	}
+
+	@AfterEach
+	public void teardown() {
+		this.usuario = null;
+		this.usuarioRepository.deleteAll();
+		this.papelRepository.deleteAll();
+	}
+
 }
