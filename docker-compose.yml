@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: java -jar /app.jar
     depends_on:
       - database
     ports:
