@@ -1,7 +1,5 @@
 package com.securityteste.securityspringteste.config.security;
 
-import java.util.Arrays;
-
 import com.securityteste.securityspringteste.api.filter.TokenAuthenticationFilter;
 import com.securityteste.securityspringteste.api.service.TokenService;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
