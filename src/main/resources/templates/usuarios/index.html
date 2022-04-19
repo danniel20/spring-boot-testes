@@ -36,10 +36,9 @@
             <td class="d-flex">
               <button type="button" class="btn btn-success btn-sm btn-circle btn-user-show" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
               
-              <form th:action="@{/usuarios/{id}(id=${_usuario.id})}" th:method="delete">
+              <form th:action="@{/usuarios/{id}(id=${_usuario.id})}" th:method="delete" th:unless="${_usuario eq #authentication.getPrincipal()}">
                 <button type="submit" class="btn btn-danger btn-sm btn-circle btn-user-delete" th:data-user-id="${_usuario.id}"><i class="bi bi-trash"></i></button>
               </form>
-
             </td>
           </tr>
         </tbody>
