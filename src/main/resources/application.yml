@@ -54,7 +54,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
   thymeleaf:
     cache: false
   web:
@@ -64,6 +64,8 @@ spring:
   devtools:
     restart:
       additional-exclude: ./uploads/**
+  flyway:
+    enabled: true
 
 ---
 
@@ -98,6 +100,8 @@ spring:
     resources:
       cache:
         period: 0
+  flyway:
+    enabled: true
 
 ---
 
@@ -118,3 +122,5 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+  flyway:
+    enabled: false

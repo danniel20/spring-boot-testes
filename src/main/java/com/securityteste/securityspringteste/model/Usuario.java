@@ -30,82 +30,81 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@SequenceGenerator(name = "sequence_id", sequenceName = "usuario_sequence_id", allocationSize = 1)
-public class Usuario extends Base implements UserDetails{
+@SequenceGenerator(name = "sequence_id", sequenceName = "usuario_id_seq", allocationSize = 1)
+public class Usuario extends Base implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-	@Size(min=3, message = "deve possuir ao menos 3 caracteres.")
-    @Column(nullable = false, unique=true)
-    private String login;
+	@Size(min = 3, message = "deve possuir ao menos 3 caracteres.")
+	@Column(nullable = false, unique = true)
+	private String login;
 
-	@Size(min=6, message = "deve possuir ao menos 6 caracteres.")
-    @Column(nullable = false)
-    private String senha;
-
-	@NotBlank
-    @Column(nullable = false)
-    private String nome;
+	@Size(min = 6, message = "deve possuir ao menos 6 caracteres.")
+	@Column(nullable = false)
+	private String senha;
 
 	@NotBlank
-    @Email(message = "Informe um email válido.")
-    @Column(nullable=false, unique=true)
-    private String email;
+	@Column(nullable = false)
+	private String nome;
+
+	@NotBlank
+	@Email(message = "Informe um email válido.")
+	@Column(nullable = false, unique = true)
+	private String email;
 
 	@NotNull(message = "Informe uma data.")
-    @Past
-    @Column(nullable = false)
-    private LocalDate dataNascimento;
+	@Past
+	@Column(nullable = false)
+	private LocalDate dataNascimento;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Foto foto;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "usuarios_papeis",
-	            joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
-	            inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))
-    @Builder.Default
-    private Set<Papel> papeis = new HashSet<Papel>();
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuarios_papeis", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))
+	@Builder.Default
+	private Set<Papel> papeis = new HashSet<Papel>();
 
-    @Override
-    public String getPassword() {
-        return this.senha;
-    }
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
 
-    @Override
-    public String getUsername() {
-        return this.login;
-    }
+	@Override
+	public String getUsername() {
+		return this.login;
+	}
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.papeis;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.papeis;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 
 }

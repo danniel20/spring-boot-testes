@@ -100,14 +100,16 @@ public class InitDataBase implements CommandLineRunner {
 					String fileName1 = this.storageService
 							.store(FileUtil.fileToMultipartFile(pathImageUsuario1.toFile()));
 
-					usuario1.setFoto(Foto.builder().fileName(fileName1).build());
+					var foto1 = Foto.builder().fileName(fileName1).usuario(usuario1).build();
+					usuario1.setFoto(foto1);
 
 					Path pathImageUsuario2 = tempDir.resolve(imagem2 + ".png");
 
 					String fileName2 = this.storageService
 							.store(FileUtil.fileToMultipartFile(pathImageUsuario2.toFile()));
 
-					usuario2.setFoto(Foto.builder().fileName(fileName2).build());
+					var foto2 = Foto.builder().fileName(fileName2).usuario(usuario2).build();
+					usuario2.setFoto(foto2);
 				} catch (Exception e) {
 					System.out.println("Não foi possível salvar a image do usuário: " + e.getMessage());
 				}
