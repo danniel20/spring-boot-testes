@@ -1,4 +1,4 @@
-CREATE TABLE usuarios_papeis
+CREATE TABLE IF NOT EXISTS usuarios_papeis
 (
     usuario_id BIGINT NOT NULL,
     papel_id BIGINT NOT NULL,

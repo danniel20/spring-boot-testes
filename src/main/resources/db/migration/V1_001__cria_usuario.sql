@@ -1,4 +1,4 @@
-CREATE TABLE usuario
+CREATE TABLE IF NOT EXISTS usuario
 (
     id SERIAL PRIMARY KEY,
     data_nascimento date NOT NULL,
