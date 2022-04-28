@@ -12,7 +12,7 @@ services:
     env_file: .env
 
   database:
-    image: postgres:9.6
+    image: postgres:12.10-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
