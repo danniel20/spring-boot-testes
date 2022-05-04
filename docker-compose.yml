@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   web:
@@ -7,12 +7,13 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
+    command: ["./wait-for-postgres.sh", "database", "python", "app.py"]
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     env_file: .env
 
   database:
-    image: postgres:12.10-alpine
+    image: postgres:14.2-alpine
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
