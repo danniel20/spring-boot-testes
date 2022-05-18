@@ -12,11 +12,11 @@ import lombok.Data;
 @Data
 @MappedSuperclass
 public abstract class Base implements Serializable {
- 
+
     private static final long serialVersionUID = 1L;
 
-    @Id 
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_id")
-    private Long id;
-    
+    protected Long id;
+
 }
