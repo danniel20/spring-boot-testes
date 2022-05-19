@@ -8,6 +8,7 @@ import com.securityteste.securityspringteste.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -15,10 +16,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private UsuarioRepository repository;
 
+	@Transactional
     @Override
     public Usuario salvar(Usuario usuario) {
         return this.repository.save(usuario);
-        
+
     }
 
     @Override
@@ -32,6 +34,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+	@Transactional
     public void deletarPorId(Long id) {
         this.repository.deleteById(id);
     }
@@ -40,5 +43,5 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Optional<Usuario> buscarPorLogin(String login) {
         return this.repository.findByLogin(login);
     }
-    
+
 }
