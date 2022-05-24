@@ -1,7 +1,6 @@
 package com.securityteste.securityspringteste.controller;
 
-import java.time.LocalDate;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class HomeController {
+
+	@Value("${spring.application.name}")
+	private String applicationName;
 
 	@GetMapping("/")
 	public String root(){
@@ -19,7 +21,7 @@ public class HomeController {
     public ModelAndView index(){
         ModelAndView mv = new ModelAndView("home");
         mv.addObject("message", "Seja bem-vindo!");
-		mv.addObject("data", LocalDate.now());
+		mv.addObject("applicationName", "Spring Boot App V1");
         return mv;
     }
 

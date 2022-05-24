@@ -9,22 +9,22 @@
 <body>
 
   <div layout:fragment="content">
-   
+
     <div class="bg-light p-5 rounded mt-3">
-      <h1>Spring Boot Application</h1>
-      
+      <h1><span th:text="${applicationName}"></span></h1>
+
       <p class="lead">
         Hello <strong><span sec:authentication="name"></strong></span>!
-        Welcome to the Spring MVC Quickstart application!
+        Welcome to the Spring Boot Quickstart application!
         <span th:text="${#locale.country}"></span>
       </p>
-      
+
       <p class="lead">
         This example is a exercise to build a web application using spring boot framework.
       </p>
       <!-- <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">View navbar docs »</a> -->
     </div>
   </div>
-  
+
 </body>
 </html>
