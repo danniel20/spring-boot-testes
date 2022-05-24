@@ -14,21 +14,21 @@
                 </div>
 
                 <div class="modal-body">
-                    
+
                     <p th:if="${usuario.foto != null}">
                         <img th:src="@{'/uploads/' + ${usuario.foto.fileName}}" alt="" width="100px" height="100px" />
                     </p>
-                    
+
                     <p>
                         <strong>Login:</strong>
                         <span th:text="${usuario.login}"></span>
                     </p>
-                    
+
                     <p>
                         <strong>Email:</strong>
                         <span th:text="${usuario.email}"></span>
                     </p>
-                    
+
                     <p>
                         <strong>Data de Nascimento:</strong>
                         <span th:text="${#temporals.format(usuario.dataNascimento, 'dd/MM/yyyy')}"></span>

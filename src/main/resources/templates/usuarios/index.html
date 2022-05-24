@@ -11,7 +11,7 @@
   <div layout:fragment="content">
 
     <h3 class="text-center mt-4">Lista de Usuários</h3>
-       
+
     <div class="bg-light p-5 rounded mt-3">
 
       <a th:href="@{/usuarios/new}" class="btn btn-primary btn-circle mb-4">Novo Usuário</a>
@@ -35,7 +35,7 @@
             <td class="text-center" th:text="${#temporals.format(_usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
             <td class="d-flex">
               <button type="button" class="btn btn-success btn-sm btn-circle btn-user-show" th:data-user-id="${_usuario.id}"><i class="bi bi-search"></i></button>
-              
+
               <form th:action="@{/usuarios/{id}(id=${_usuario.id})}" th:method="delete" th:unless="${_usuario eq #authentication.getPrincipal()}">
                 <button type="submit" class="btn btn-danger btn-sm btn-circle btn-user-delete" th:data-user-id="${_usuario.id}"><i class="bi bi-trash"></i></button>
               </form>
@@ -60,7 +60,7 @@
 
         function confirmDelete(event){
           event.preventDefault();
-  
+
           const opts = {
             title: "Confirmação",
             message: "Deseja realmente exlcuir o usuário?",
@@ -106,13 +106,13 @@
               }
             }
           };
-    
+
           bootbox.confirm(opts);
-        }        
+        }
       });
     </script>
 
   </div>
- 
+
 </body>
 </html>
