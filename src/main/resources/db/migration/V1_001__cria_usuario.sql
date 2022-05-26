@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS usuario
     login VARCHAR(50) NOT NULL,
     nome VARCHAR(100) NOT NULL,
     senha VARCHAR(100) NOT NULL,
+    created_at date NOT NULL,
+    updated_at date,
 
     CONSTRAINT uk_email UNIQUE (email),
     CONSTRAINT uk_login UNIQUE (login)

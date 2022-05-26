@@ -4,8 +4,8 @@ import javax.validation.Valid;
 
 import com.securityteste.securityspringteste.api.controller.auth.dto.LoginDTO;
 import com.securityteste.securityspringteste.api.controller.auth.dto.TokenDTO;
-import com.securityteste.securityspringteste.api.service.TokenService;
 import com.securityteste.securityspringteste.api.utils.ResponseHandler;
+import com.securityteste.securityspringteste.service.token.TokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

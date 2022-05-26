@@ -1,4 +1,4 @@
-package com.securityteste.securityspringteste.api.service;
+package com.securityteste.securityspringteste.service.token;
 
 import java.util.Base64;
 import java.util.Date;

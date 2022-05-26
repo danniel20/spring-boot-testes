@@ -9,11 +9,11 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.securityteste.securityspringteste.api.controller.usuarios.UsuarioController;
 import com.securityteste.securityspringteste.api.controller.usuarios.dto.UsuarioRequest;
-import com.securityteste.securityspringteste.api.service.TokenService;
 import com.securityteste.securityspringteste.model.Papel;
 import com.securityteste.securityspringteste.model.Usuario;
 import com.securityteste.securityspringteste.service.auth.UserDetailsServiceImpl;
 import com.securityteste.securityspringteste.service.papeis.PapelServiceImpl;
+import com.securityteste.securityspringteste.service.token.TokenService;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioServiceImpl;
 
 import org.junit.jupiter.api.AfterEach;

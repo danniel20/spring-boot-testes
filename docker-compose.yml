@@ -22,5 +22,12 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
 
+  # Mailhog: mail catcher for local debugging
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # SMTP server ports
+      - 8025:8025 # Web UI ports
+
 volumes:
   db_data:

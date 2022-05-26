@@ -24,6 +24,18 @@ spring:
       filter:
         enabled: true
 
+  mail:
+    protocol: smtp
+    host: ${env.SMTP_HOST}
+    port: ${env.SMTP_PORT}
+    username: ${env.SMTP_USER}
+    password: ${env.SMTP_PASSWORD}
+    properties:
+      mail.smtp.auth: ${env.SMTP_AUTHENTICATION}
+      mail.smtp.starttls.enable: ${env.STMP_ENABLE_TLS}
+    addresses:
+      from: ${env.SMTP_DEFAULT_EMAIL_SENDER}
+
 logging:
   level:
     org:

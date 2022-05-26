@@ -1,0 +1,7 @@
+Hello [(${fullName})], teste de parametros: [(${obj.nome})] 
+
+Your subscription was received an update. Please go check it out on :
+
+https://definitely-not-a-spam.com/legit-link
+
+Cheers.
