@@ -143,10 +143,6 @@ public class SecurityConfig {
 					.addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
 
 			registry
-					.addResourceHandler("/webjars/**")
-					.addResourceLocations("/webjars/");
-
-			registry
 					.addResourceHandler("/uploads/**")
 					.addResourceLocations("file:./uploads/");
 		}
