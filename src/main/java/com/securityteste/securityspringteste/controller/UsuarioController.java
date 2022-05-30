@@ -55,18 +55,18 @@ public class UsuarioController {
 
 	@GetMapping("/new")
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ModelAndView newForm(){
+	public ModelAndView form(Usuario usuario){
 		ModelAndView mv = new ModelAndView("usuarios/form");
-		mv.addObject("usuario", new Usuario());
+		mv.addObject("usuario", usuario == null ? new Usuario() : usuario);
         return mv;
 	}
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public String create(@ModelAttribute @Valid Usuario usuario, BindingResult result, @RequestParam(required = false) MultipartFile file, RedirectAttributes ra){
+	public ModelAndView create(@ModelAttribute @Valid Usuario usuario, BindingResult result, @RequestParam(required = false) MultipartFile file, RedirectAttributes ra){
 
 		if(result.hasErrors()){
-			return "usuarios/form";
+			return form(usuario);
 		}
 
 		Usuario usuarioNovo = Usuario.builder()
@@ -89,7 +89,7 @@ public class UsuarioController {
 		this.usuarioService.salvar(usuarioNovo);
 
 		ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
-		return "redirect:/usuarios";
+		return new ModelAndView("redirect:/usuarios");
 	}
 
 	@GetMapping("/{id}")

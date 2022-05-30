@@ -23,7 +23,7 @@ public class ErrorController {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
 	public String handleMaxSizeException(MaxUploadSizeExceededException exc, HttpServletRequest request, HttpServletResponse response, RedirectAttributes ra) {
 		ra.addFlashAttribute("alert", "Arquivo excedeu o limite total permitido para upload!");
-		return "redirect:"+ request.getHeader("referer");
+		return "redirect:/usuarios/new";
 	}
 
 	@ExceptionHandler(AccessDeniedException.class)
