@@ -15,8 +15,8 @@ spring:
   servlet:
     multipart:
       enabled: true
-      max-file-size: 500KB
-      max-request-size: 500KB
+      max-file-size: 5MB
+      max-request-size: 5MB
       location: ${env.UPLOAD_PATH}
 
   mvc:

@@ -9,22 +9,24 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.securityteste.securityspringteste.validations.FileSize;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +35,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @ToString
@@ -70,6 +71,10 @@ public class Usuario extends Base implements UserDetails {
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Foto foto;
+
+	@Transient
+	@FileSize(maxSizeInMB = 2, message = "deve possuir no máximo 5MB.")
+	private MultipartFile fotoFile;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuarios_papeis", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))
