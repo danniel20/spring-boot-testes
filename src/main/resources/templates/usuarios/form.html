@@ -15,6 +15,8 @@
 
         <form th:action="@{/usuarios}" th:object="${usuario}" th:method="post" enctype="multipart/form-data">
 
+            <input type="hidden" th:field="*{id}" />
+
             <div class="row">
                 <div class="form-group col-sm-6">
                     <label for="nome" class="col-form-label col-form-label-sm">Nome</label>

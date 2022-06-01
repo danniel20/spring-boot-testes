@@ -11,6 +11,7 @@ import com.securityteste.securityspringteste.service.papeis.PapelServiceImpl;
 import com.securityteste.securityspringteste.service.storage.StorageServiceImpl;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioService;
 
+import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -53,6 +54,16 @@ public class UsuarioController {
 
 	@GetMapping("/new")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ModelAndView novoUsuario(){
+		return form(new Usuario());
+	}
+
+	@GetMapping("/edit/{id}")
+	public ModelAndView edit(@PathVariable("id") Long id){
+		Usuario usuarioEdit = this.usuarioService.bucarPorId(id).get();
+		return form(usuarioEdit);
+	}
+
 	public ModelAndView form(Usuario usuario){
 		ModelAndView mv = new ModelAndView("usuarios/form");
 		mv.addObject("usuario", usuario == null ? new Usuario() : usuario);
@@ -61,40 +72,47 @@ public class UsuarioController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ModelAndView create(@ModelAttribute @Valid Usuario usuario, BindingResult result, RedirectAttributes ra){
+	public ModelAndView saveOrUpdate(@ModelAttribute @Valid Usuario usuario, BindingResult result, RedirectAttributes ra){
 
 		if(result.hasErrors()){
 			return form(usuario);
 		}
 
-		Usuario usuarioNovo = Usuario.builder()
-                .login(usuario.getLogin())
-                .nome(usuario.getNome())
-                .email(usuario.getEmail())
-                .senha(passwordEncoder.encode(usuario.getSenha()))
-                .dataNascimento(usuario.getDataNascimento())
-                .build();
+		if(usuario.getId() == null){
+			Usuario usuarioNovo = Usuario.builder()
+					.login(usuario.getLogin())
+					.nome(usuario.getNome())
+					.email(usuario.getEmail())
+					.senha(this.passwordEncoder.encode(usuario.getSenha()))
+					.dataNascimento(usuario.getDataNascimento())
+					.build();
 
-		Papel papel = this.papelService.bucarPorNome("USER").get();
-		usuarioNovo.getPapeis().add(papel);
+			Papel papel = this.papelService.bucarPorNome("USER").get();
+			usuarioNovo.getPapeis().add(papel);
 
-		if(usuario.getFotoFile() != null && !usuario.getFotoFile().isEmpty()){
-			String fileName = storageService.store(usuario.getFotoFile());
-			Foto foto = Foto.builder().fileName(fileName).usuario(usuarioNovo).build();
-			usuarioNovo.setFoto(foto);
+			if(usuario.getFotoFile() != null && !usuario.getFotoFile().isEmpty()){
+				String fileName = this.storageService.store(usuario.getFotoFile());
+				Foto foto = Foto.builder().fileName(fileName).usuario(usuarioNovo).build();
+				usuarioNovo.setFoto(foto);
+			}
+
+			this.usuarioService.salvar(usuarioNovo);
+			ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
+		}
+		else{
+			usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
+
+			this.usuarioService.salvar(usuario);
+			ra.addFlashAttribute("notice", "Usuário alterado com sucesso!");
 		}
 
-		System.out.println("TESTE >>> " + usuarioNovo);
-		this.usuarioService.salvar(usuarioNovo);
-
-		ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
 		return new ModelAndView("redirect:/usuarios");
 	}
 
 	@GetMapping("/{id}")
 	public ModelAndView show(@PathVariable("id") Long id){
 		ModelAndView mv = new ModelAndView("usuarios/fragments/usuario :: modal-user-show");
-		Usuario usuario = usuarioService.bucarPorId(id).get();
+		Usuario usuario = this.usuarioService.bucarPorId(id).get();
 		mv.addObject("usuario", usuario);
         return mv;
 	}
@@ -102,7 +120,7 @@ public class UsuarioController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ModelAndView delete(@PathVariable("id") Long id){
-		usuarioService.deletarPorId(id);
+		this.usuarioService.deletarPorId(id);
 
 		ModelAndView mv = new ModelAndView("usuarios/index :: datatable-users");
 		mv.getModel().put("usuarios", this.usuarioService.buscarTodos());
