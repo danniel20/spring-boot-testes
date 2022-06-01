@@ -26,6 +26,13 @@ jobs:
           echo SERVER_PORT=8080 >> .env
           echo API_TOKEN_SECRET=my_token_secret >> .env
           echo UPLOAD_PATH=./uploads >> .env
+          echo SMTP_HOST= >> .env
+          echo SMTP_PORT= >> .env
+          echo SMTP_USER= >> .env
+          echo SMTP_PASSWORD= >> .env
+          echo SMTP_AUTHENTICATION= >> .env
+          STMP_ENABLE_TLS= >> .env
+          echo SMTP_DEFAULT_EMAIL_SENDER= >> .env
           cat .env
 
       - name: Build with Maven
