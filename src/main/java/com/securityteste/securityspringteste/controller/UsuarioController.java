@@ -102,10 +102,10 @@ public class UsuarioController {
 			ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
 		}
 		else{
-			Usuario usuarioLoaded = this.usuarioService.bucarPorId(usuarioRequest.getId()).get();
 
 			if(usuarioRequest.getMultipartFile() != null && !usuarioRequest.getMultipartFile().isEmpty()){
 				String fileName = this.storageService.store(usuarioRequest.getMultipartFile());
+				Usuario usuarioLoaded = this.usuarioService.bucarPorId(usuarioRequest.getId()).get();
 
 				if(usuarioLoaded.getFoto() != null){
 					Path path = this.storageService.load(usuarioLoaded.getFoto().getFileName());
