@@ -11,13 +11,11 @@ import javax.validation.Payload;
 
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FileSizeValidator.class)
+@Constraint(validatedBy = FileTypeValidator.class)
 @Documented
-public @interface FileSize {
+public @interface FileType {
 
 	Class<? extends Payload> [] payload() default{};
 	Class<?>[] groups() default{};
-	long maxSizeInMB() default 512;
-
-	String message() default "Tamanho máximo do arquivo excedido!";
+	String message() default "Somente formatos PNG, JPG E JPEG são permitidos!";
 }

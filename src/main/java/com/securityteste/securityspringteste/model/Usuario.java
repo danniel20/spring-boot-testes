@@ -23,6 +23,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import com.securityteste.securityspringteste.validations.FileSize;
+import com.securityteste.securityspringteste.validations.FileType;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -74,6 +75,7 @@ public class Usuario extends Base implements UserDetails {
 
 	@Transient
 	@FileSize(maxSizeInMB = 2, message = "deve possuir no máximo 5MB.")
+	@FileType
 	private MultipartFile multipartFile;
 
 	@ManyToMany(fetch = FetchType.EAGER)
