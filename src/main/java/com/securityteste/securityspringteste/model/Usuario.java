@@ -74,7 +74,7 @@ public class Usuario extends Base implements UserDetails {
 
 	@Transient
 	@FileSize(maxSizeInMB = 2, message = "deve possuir no máximo 5MB.")
-	private MultipartFile fotoFile;
+	private MultipartFile multipartFile;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuarios_papeis", joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id"))

@@ -1,5 +1,7 @@
 package com.securityteste.securityspringteste.controller;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,11 +13,11 @@ import com.securityteste.securityspringteste.service.papeis.PapelServiceImpl;
 import com.securityteste.securityspringteste.service.storage.StorageServiceImpl;
 import com.securityteste.securityspringteste.service.usuarios.UsuarioService;
 
-import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,26 +74,26 @@ public class UsuarioController {
 
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ModelAndView saveOrUpdate(@ModelAttribute @Valid Usuario usuario, BindingResult result, RedirectAttributes ra){
+	public ModelAndView saveOrUpdate(@ModelAttribute @Valid Usuario usuarioRequest, BindingResult result, RedirectAttributes ra){
 
 		if(result.hasErrors()){
-			return form(usuario);
+			return form(usuarioRequest);
 		}
 
-		if(usuario.getId() == null){
+		if(usuarioRequest.getId() == null){
 			Usuario usuarioNovo = Usuario.builder()
-					.login(usuario.getLogin())
-					.nome(usuario.getNome())
-					.email(usuario.getEmail())
-					.senha(this.passwordEncoder.encode(usuario.getSenha()))
-					.dataNascimento(usuario.getDataNascimento())
+					.login(usuarioRequest.getLogin())
+					.nome(usuarioRequest.getNome())
+					.email(usuarioRequest.getEmail())
+					.senha(this.passwordEncoder.encode(usuarioRequest.getSenha()))
+					.dataNascimento(usuarioRequest.getDataNascimento())
 					.build();
 
 			Papel papel = this.papelService.bucarPorNome("USER").get();
 			usuarioNovo.getPapeis().add(papel);
 
-			if(usuario.getFotoFile() != null && !usuario.getFotoFile().isEmpty()){
-				String fileName = this.storageService.store(usuario.getFotoFile());
+			if(usuarioRequest.getMultipartFile() != null && !usuarioRequest.getMultipartFile().isEmpty()){
+				String fileName = this.storageService.store(usuarioRequest.getMultipartFile());
 				Foto foto = Foto.builder().fileName(fileName).usuario(usuarioNovo).build();
 				usuarioNovo.setFoto(foto);
 			}
@@ -100,9 +102,31 @@ public class UsuarioController {
 			ra.addFlashAttribute("notice", "Usuário cadastrado com sucesso!");
 		}
 		else{
-			usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
+			Usuario usuarioLoaded = this.usuarioService.bucarPorId(usuarioRequest.getId()).get();
 
-			this.usuarioService.salvar(usuario);
+			if(usuarioRequest.getMultipartFile() != null && !usuarioRequest.getMultipartFile().isEmpty()){
+				String fileName = this.storageService.store(usuarioRequest.getMultipartFile());
+
+				if(usuarioLoaded.getFoto() != null){
+					Path path = this.storageService.load(usuarioLoaded.getFoto().getFileName());
+					try {
+						FileSystemUtils.deleteRecursively(path.getFileName());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					usuarioLoaded.getFoto().setFileName(fileName);
+					usuarioRequest.setFoto(usuarioLoaded.getFoto());
+				}
+				else{
+					Foto foto = Foto.builder().fileName(fileName).usuario(usuarioRequest).build();
+					usuarioRequest.setFoto(foto);
+				}
+			}
+
+			usuarioRequest.setSenha(this.passwordEncoder.encode(usuarioRequest.getSenha()));
+
+			this.usuarioService.salvar(usuarioRequest);
 			ra.addFlashAttribute("notice", "Usuário alterado com sucesso!");
 		}
 

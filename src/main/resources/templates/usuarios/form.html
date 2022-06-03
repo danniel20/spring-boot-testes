@@ -69,17 +69,18 @@
 
             <div class="row mt-3">
                 <div class="form-group col-sm-4">
-                    <label for="formFile" class="form-label">Foto</label> <br />
-                    <img src="" id="previewImage"/>
-                    <input class="form-control form-control-sm" type="file" id="formFile" th:field="*{fotoFile}" th:errorclass="is-invalid">
+                    <label for="formFile" class="form-label">Foto (opcional)</label> <br />
+                    <img id="previewImage" th:src="@{'/uploads/' + ${usuario.foto.fileName}}" alt="" width="160px" height="160px" th:if="${usuario.foto != null}"/>
+                    <input class="form-control form-control-sm" type="file" id="formFile" th:field="*{multipartFile}" th:errorclass="is-invalid">
                     <div class="invalid-feedback">
-                        <span th:if="${#fields.hasErrors('fotoFile')}" th:errors="*{fotoFile}"></span>
+                        <span th:if="${#fields.hasErrors('multipartFile')}" th:errors="*{fotoFile}"></span>
                     </div>
                 </div>
             </div>
 
             <div class="mt-4">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+                <a th:href="@{/usuarios}" class="btn btn-secondary btn-sm">Cancelar</a>
             </div>
 
           </form>
