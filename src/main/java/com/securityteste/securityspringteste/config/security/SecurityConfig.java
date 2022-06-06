@@ -63,16 +63,14 @@ public class SecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 					.antMatcher("/api/**")
-					.authorizeRequests()
+						.authorizeRequests()
 					.antMatchers(HttpMethod.POST, "/api/auth").permitAll()
-					.anyRequest().authenticated()
+						.anyRequest().authenticated()
 					.and()
-					.csrf().disable()
-					.exceptionHandling()
+						.csrf().disable()
+						.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 					.and()
-					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-					.and()
-					.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+						.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		}
 
 		@Bean
@@ -82,7 +80,7 @@ public class SecurityConfig {
 
 		@Override
 		public void configure(WebSecurity web) throws Exception {
-			web.ignoring().antMatchers("/h2-console/**");
+			web.ignoring().antMatchers("/h2-console/**", "/actuator/**");
 		}
 
 		@Bean
@@ -109,7 +107,7 @@ public class SecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 					.authorizeRequests()
-					.antMatchers("/resources/**", "/webjars/**", "/uploads/**").permitAll()
+					.antMatchers("/resources/**", "/webjars/**").permitAll()
 					// .antMatchers("/home").permitAll()
 					// .antMatchers( "/public/**").permitAll()
 					.anyRequest().authenticated()
