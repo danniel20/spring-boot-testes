@@ -16,7 +16,7 @@ public class FileTypeValidator implements ConstraintValidator<FileType, Multipar
 
 		boolean result = true;
 
-		if(multipartFile == null){
+		if(multipartFile == null || multipartFile.isEmpty()){
 			return true;
 		}
 

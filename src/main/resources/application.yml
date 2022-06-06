@@ -38,13 +38,19 @@ spring:
 
 logging:
   level:
+    root: WARN
     org:
       springframework:
         security: DEBUG
-        web:
-          servlet:
-            DispatcherServlet: DEBUG
-      hibernate: error
+        web: DEBUG
+    #       servlet:
+    #         DispatcherServlet: debug
+      hibernate:
+        SQL: INFO
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 
 jwt:
   secret: ${env.API_TOKEN_SECRET}
@@ -73,7 +79,7 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
 
   thymeleaf:
     cache: false
