@@ -10,6 +10,9 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -29,24 +32,33 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+// import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+// import lombok.Setter;
+// import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
+//@Getter
+//@Setter
+//@ToString
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
-@SequenceGenerator(name = "sequence_id", sequenceName = "usuario_id_seq", allocationSize = 1)
+@SequenceGenerator(name = "seq_usuario", sequenceName = "usuario_id_seq", allocationSize = 1)
 public class Usuario extends Base implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
+	@EqualsAndHashCode.Include
+    private Long id;
 
 	@Size(min = 3, message = "deve possuir ao menos 3 caracteres.")
 	@Column(nullable = false, unique = true)

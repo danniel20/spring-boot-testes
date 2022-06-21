@@ -4,4 +4,4 @@ CREATE TABLE IF NOT EXISTS papel
     nome VARCHAR(255) NOT NULL,
 
     CONSTRAINT uk_nome UNIQUE (nome)
-)
+);

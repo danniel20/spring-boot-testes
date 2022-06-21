@@ -46,7 +46,7 @@ logging:
     #       servlet:
     #         DispatcherServlet: debug
       hibernate:
-        SQL: INFO
+        SQL: ERROR
         type:
           descriptor:
             sql:
@@ -73,7 +73,7 @@ spring:
     password: ${env.POSTGRES_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     show-sql: true
     properties:
       hibernate:
@@ -121,7 +121,7 @@ spring:
       remove-abandoned: true
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     show-sql: true
     properties:
       hibernate:

@@ -68,13 +68,9 @@ public class UsuarioControllerTest {
 
 	@BeforeEach
 	public void setup() {
-		Usuario usuarioMock1 = new Usuario("joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null, null, null, null);
-		Usuario usuarioMock2 = new Usuario("ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null, null, null, null);
-		Usuario usuarioMock3 = new Usuario("jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null, null, null, null);
-
-		usuarioMock1.setId(1L);
-		usuarioMock2.setId(2L);
-		usuarioMock3.setId(3L);
+		Usuario usuarioMock1 = new Usuario(1L, "joao", "123456", "João das Neves", "joao@teste.com", LocalDate.of(1995, 3, 7), null, null, null, null);
+		Usuario usuarioMock2 = new Usuario(2L, "ana", "123456", "Ana Maria", "ana@teste.com", LocalDate.of(1980, 4, 10), null, null, null, null);
+		Usuario usuarioMock3 = new Usuario(3L, "jose", "123456", "José Silva", "jose@teste.com", LocalDate.of(1988, 10, 21), null, null, null, null);
 
 		this.usuariosList = new ArrayList<Usuario>(Arrays.asList(usuarioMock1, usuarioMock2, usuarioMock3));
 	}

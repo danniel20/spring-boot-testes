@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS foto
     updated_at timestamp,
 
     CONSTRAINT fk_usuario_id FOREIGN KEY(usuario_id) REFERENCES usuario(id)
-)
+);

@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS usuario
 
     CONSTRAINT uk_email UNIQUE (email),
     CONSTRAINT uk_login UNIQUE (login)
-)
+);
