@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - database
-    entrypoint: ["./wait-for-it.sh", "database:5432", "--","java", "-jar", "app.jar"]
+    entrypoint: ["./wait-for-it.sh", "database:5432", "--","java", "-jar", "-Dspring.profiles.active=production", "app.jar"]
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     env_file: .env

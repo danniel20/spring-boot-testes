@@ -15,4 +15,4 @@ RUN apk add --no-cache bash
 COPY --from=build /app/target/*.jar app.jar
 COPY --from=build /app/.env /app/wait-for-it.sh /app/
 RUN chmod +x wait-for-it.sh
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=production","app.jar"]
